@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK3D.App", "GK3D.App\GK3D.App.csproj", "{23F3E2CE-FF84-4945-953C-F8CD8135F791}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK3D.Components", "GK3D.Components\GK3D.Components.csproj", "{6E401A58-F1A3-46D0-A16A-58FC9183AF46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{23F3E2CE-FF84-4945-953C-F8CD8135F791}.Debug|x86.ActiveCfg = Debug|x86
+		{23F3E2CE-FF84-4945-953C-F8CD8135F791}.Debug|x86.Build.0 = Debug|x86
+		{23F3E2CE-FF84-4945-953C-F8CD8135F791}.Release|x86.ActiveCfg = Release|x86
+		{23F3E2CE-FF84-4945-953C-F8CD8135F791}.Release|x86.Build.0 = Release|x86
+		{6E401A58-F1A3-46D0-A16A-58FC9183AF46}.Debug|x86.ActiveCfg = Debug|x86
+		{6E401A58-F1A3-46D0-A16A-58FC9183AF46}.Debug|x86.Build.0 = Debug|x86
+		{6E401A58-F1A3-46D0-A16A-58FC9183AF46}.Release|x86.ActiveCfg = Release|x86
+		{6E401A58-F1A3-46D0-A16A-58FC9183AF46}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC8123EC-F86E-4CA3-BEC5-FF031AB7626F}
+	EndGlobalSection
+EndGlobal
