@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectLAB.App", "ProjectLAB.App\ProjectLAB.App.csproj", "{16F922A1-DCC5-4B79-B5EC-9FD5BE8FE437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectLAB.UserControls", "ProjectLAB.UserControls\ProjectLAB.UserControls.csproj", "{894298F8-130A-4D9F-8FF0-08D6E8374C2F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16F922A1-DCC5-4B79-B5EC-9FD5BE8FE437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16F922A1-DCC5-4B79-B5EC-9FD5BE8FE437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16F922A1-DCC5-4B79-B5EC-9FD5BE8FE437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16F922A1-DCC5-4B79-B5EC-9FD5BE8FE437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894298F8-130A-4D9F-8FF0-08D6E8374C2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894298F8-130A-4D9F-8FF0-08D6E8374C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894298F8-130A-4D9F-8FF0-08D6E8374C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894298F8-130A-4D9F-8FF0-08D6E8374C2F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03FD6B37-EEA1-41EE-B431-7EC15CFCC02C}
+	EndGlobalSection
+EndGlobal

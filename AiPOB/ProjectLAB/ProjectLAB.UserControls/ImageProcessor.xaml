@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="ProjectLAB.UserControls.ImageProcessor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectLAB.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel IsEnabled="{Binding IsEnabled}">
+        <Button Command="{Binding LoadImageCommand}">Show Image</Button>
+        <Button Command="{Binding TrigerImageOperationCommand}">Trigger operation</Button> 
+        <Label Content="{Binding Name}"/>
+    </StackPanel>
+</UserControl>
