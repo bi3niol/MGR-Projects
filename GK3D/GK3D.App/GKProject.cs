@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GK3D.Components;
+using GK3D.Components.Models;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -12,10 +14,12 @@ namespace GK3D.App
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        IModel model;
         public GKProject()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -39,7 +43,9 @@ namespace GK3D.App
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //var asset = Content.Load<Model>("Sample_Ship");
 
+            model =/* Content.LoadXnaModel("ship2");//*/ new Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 4, 5, 6);
             // TODO: use this.Content to load your game content here
         }
 
@@ -74,8 +80,11 @@ namespace GK3D.App
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            var world = Matrix.Identity;
+            var view = Matrix.CreateLookAt(new Vector3(0, 30, 30), Vector3.Zero, Vector3.Up);
+            var projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1, 1, 1000);
             // TODO: Add your drawing code here
+            model.Draw(world, view, projection);
 
             base.Draw(gameTime);
         }

@@ -8,25 +8,34 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class BaseModel : IModel
+    public abstract class BaseModel<TVertex> : IModel where TVertex : struct, IVertexType
     {
-        protected VertexPositionTexture[] Vertexes;
-        protected BasicEffect Efect;
+        protected TVertex[] Vertexes;
+        protected BasicEffect Effect;
         protected GraphicsDeviceManager Graphics;
 
         public object Tag { get; set; }
 
+        public BaseModel(GraphicsDeviceManager graphics, BasicEffect effect)
+        {
+            Graphics = graphics;
+            Effect = effect;
+        }
+
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
-            if (Efect == null) return;
+            if (Effect == null) return;
 
             int triangleCount = Vertexes.Length / 3;
 
-            Efect.View = view;
-            Efect.World = world;
-            Efect.Projection = projection;
+            Effect.View = view;
+            Effect.World = world;
+            Effect.Projection = projection;
+            Effect.VertexColorEnabled = true;
 
-            foreach (var pass in Efect.CurrentTechnique.Passes)
+            Effect.EnableDefaultLighting();
+
+            foreach (var pass in Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertexes, 0, triangleCount);
