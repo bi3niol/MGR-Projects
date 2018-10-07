@@ -44,6 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Extensions\ContentManagerExtensions.cs" />
+    <Compile Include="Game\GameManager.cs" />
+    <Compile Include="Game\IGameState.cs" />
+    <Compile Include="Game\IStateManager.cs" />
+    <Compile Include="Game\StateManager.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="IXnaModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -52,6 +56,7 @@
     <Compile Include="Models\Sphere.cs" />
     <Compile Include="Models\XnaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneObjects\Camera.cs" />
     <Compile Include="VertexPositionColorNormal.cs" />
   </ItemGroup>
   <ItemGroup>

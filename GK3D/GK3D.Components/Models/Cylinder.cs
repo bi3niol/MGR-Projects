@@ -28,6 +28,7 @@ namespace GK3D.Components.Models
                 float x = (float)Math.Cos(a2);
                 norm.X = x;
                 norm.Z = z;
+                norm.Normalize();
                 pos[i + 1] = new Vector3(x * raius, height, z * raius);
                 pos[i + 1 + n] = new Vector3(x * raius, -height, z * raius);
                 normals[i + 1] = normals[i + 1 + n] = norm;
@@ -40,11 +41,25 @@ namespace GK3D.Components.Models
                 //top
                 vertexes.Add(new VertexPositionColorNormal(pos[0], c, Vector3.Up));
                 vertexes.Add(new VertexPositionColorNormal(pos[(i + 1)], c, Vector3.Up));
-                vertexes.Add(new VertexPositionColorNormal(pos[((i + 1) % n + 1)], c, Vector3.Up));
+                vertexes.Add(new VertexPositionColorNormal(pos[(i + 1) % n + 1], c, Vector3.Up));
                 //bottom
-                //    vertexes.Add(new VertexPositionColorNormal(pos[pos.Length - 1], c, Vector3.Down));
-                //    vertexes.Add(new VertexPositionColorNormal(pos[(i + 2) % (n + 1) + n], c, Vector3.Down));
-                //    vertexes.Add(new VertexPositionColorNormal(pos[i + 1 + n], c, Vector3.Down));
+                vertexes.Add(new VertexPositionColorNormal(pos[pos.Length - 1], c, Vector3.Down));
+                vertexes.Add(new VertexPositionColorNormal(pos[(i + 1) % n + 1 + n], c, Vector3.Down));
+                vertexes.Add(new VertexPositionColorNormal(pos[i + 1 + n], c, Vector3.Down));
+
+                //
+                int i1 = i + 1,
+                    n1 = n + 1,
+                    i1n = i + 1 + n,
+                    imn = (i + 1) % n;
+
+                vertexes.Add(new VertexPositionColorNormal(pos[i1], c, normals[i1]));
+                vertexes.Add(new VertexPositionColorNormal(pos[i1n], c, normals[i1n]));
+                vertexes.Add(new VertexPositionColorNormal(pos[imn + n1], c, normals[imn + n1]));
+
+                vertexes.Add(new VertexPositionColorNormal(pos[i1], c, normals[i1]));
+                vertexes.Add(new VertexPositionColorNormal(pos[imn + n1], c, normals[imn + n1]));
+                vertexes.Add(new VertexPositionColorNormal(pos[imn + 1], c, normals[imn + 1]));
             }
             Vertexes = vertexes.ToArray();
         }

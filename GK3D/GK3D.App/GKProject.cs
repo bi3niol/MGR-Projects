@@ -1,4 +1,5 @@
 ﻿using GK3D.Components;
+using GK3D.Components.Game;
 using GK3D.Components.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,7 @@ namespace GK3D.App
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameManager manager;
 
         IModel model;
         public GKProject()
@@ -20,6 +22,7 @@ namespace GK3D.App
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            manager = new GameManager(this, new StateManager());
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace GK3D.App
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //var asset = Content.Load<Model>("Sample_Ship");
 
-            model =/* Content.LoadXnaModel("ship2");//*/ new Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 4, 5, 6);
+            model =/* Content.LoadXnaModel("ship2");//*/ new Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 2, 5, 15);
             // TODO: use this.Content to load your game content here
         }
 
@@ -67,8 +70,8 @@ namespace GK3D.App
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             // TODO: Add your update logic here
+            manager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -85,6 +88,8 @@ namespace GK3D.App
             var projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1, 1, 1000);
             // TODO: Add your drawing code here
             model.Draw(world, view, projection);
+
+            manager.Draw(gameTime);
 
             base.Draw(gameTime);
         }
