@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class XnaModel : IXnaModel
+    public class XnaModel : BaseModel, IXnaModel
     {
         private Model model;
         public ModelBoneCollection Bones => model.Bones;
@@ -20,21 +16,15 @@ namespace GK3D.Components.Models
             get => model.Root;
             set => model.Root = value;
         }
-        public object Tag
-        {
-            get => model.Tag;
-            set => model.Tag = value;
-        }
 
-        public XnaModel(Model m)
+
+        public XnaModel(Model m) : base()
         {
             model = m;
         }
 
-        public XnaModel(GraphicsDevice graphicsDevice, List<ModelBone> bones, List<ModelMesh> meshes)
-        {
-            model = new Model(graphicsDevice, bones, meshes);
-        }
+        public XnaModel(GraphicsDevice graphicsDevice, List<ModelBone> bones, List<ModelMesh> meshes):this(new Model(graphicsDevice, bones, meshes))
+        {}
 
         public void CopyAbsoluteBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
@@ -51,9 +41,9 @@ namespace GK3D.Components.Models
             model.CopyBoneTransformsTo(destinationBoneTransforms);
         }
 
-        public void Draw(Matrix world, Matrix view, Matrix projection)
+        public override void Draw(Matrix view, Matrix projection)
         {
-            model.Draw(world, view, projection);
+            model.Draw(World, view, projection);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace GK3D.Components.Game
             bool res = States.ContainsKey(stateId);
 
             States[stateId] = gameState;
+            gameState.ParentManager = this;
 
             return res;
         }
@@ -39,7 +40,6 @@ namespace GK3D.Components.Game
         public void Update(GameTime gameTime)
         {
             CurrentState?.Update(gameTime);
-
         }
     }
 }

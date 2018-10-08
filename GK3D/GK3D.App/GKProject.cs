@@ -12,11 +12,15 @@ namespace GK3D.App
     /// </summary>
     public class GKProject : Game
     {
+        enum States
+        {
+            Main
+        }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameManager manager;
 
-        IModel model;
         public GKProject()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -46,10 +50,28 @@ namespace GK3D.App
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //var asset = Content.Load<Model>("Sample_Ship");
 
-            model =/* Content.LoadXnaModel("ship2");//*/ new Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 2, 5, 15);
-            // TODO: use this.Content to load your game content here
+            manager.StateManager.SetState(States.Main, new ProjectSceneState
+            {
+                Camera = new Components.SceneObjects.Camera()
+                {
+                    Position = new Vector3(20, 0, 60),
+                },
+                Models = new System.Collections.Generic.List<IModel>
+                {
+                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.DarkOrange, 10, 10, 10),
+                    new Cube(graphics, new BasicEffect(graphics.GraphicsDevice), 7, Color.Red)
+                    {
+                        Position = new Vector3(30,15,0),
+                        Rotation = new Vector3(0,45,0)
+                    },
+                    new  Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 11, 11, 15),
+                    Content.LoadXnaModel("Ship2"),
+                },
+                Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 1000)
+            });
+            manager.StateManager.SetCurrentState(States.Main);
+
         }
 
         /// <summary>
@@ -59,6 +81,7 @@ namespace GK3D.App
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            Content.Unload();
         }
 
         /// <summary>
@@ -83,14 +106,9 @@ namespace GK3D.App
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            var world = Matrix.Identity;
-            var view = Matrix.CreateLookAt(new Vector3(0, 30, 30), Vector3.Zero, Vector3.Up);
-            var projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1, 1, 1000);
             // TODO: Add your drawing code here
-            model.Draw(world, view, projection);
 
             manager.Draw(gameTime);
-
             base.Draw(gameTime);
         }
     }

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class Sphere : BaseModel<VertexPositionColorNormal>
+    public class Sphere : CustomModel<VertexPositionColorNormal>
     {
         public Sphere(GraphicsDeviceManager graphics, BasicEffect effect, Color c, float radius, int nbLat, int nbLong) : base(graphics, effect)
         {
@@ -61,9 +61,9 @@ namespace GK3D.Components.Models
             int i = 0;
             for (int lon = 0; lon < nbLong; lon++)
             {
-                vertexes.Add(new VertexPositionColorNormal(vertices[lon + 2], c, normales[lon + 2]));
-                vertexes.Add(new VertexPositionColorNormal(vertices[lon + 1], c, normales[lon + 1]));
                 vertexes.Add(new VertexPositionColorNormal(vertices[0], c, normales[0]));
+                vertexes.Add(new VertexPositionColorNormal(vertices[lon + 1], c, normales[lon + 1]));
+                vertexes.Add(new VertexPositionColorNormal(vertices[lon + 2], c, normales[lon + 2]));
             }
 
             //Middle
@@ -74,22 +74,22 @@ namespace GK3D.Components.Models
                     int current = lon + lat * (nbLong + 1) + 1;
                     int next = current + nbLong + 1;
 
-                    vertexes.Add(new VertexPositionColorNormal(vertices[current], c, normales[current]));
+                    vertexes.Add(new VertexPositionColorNormal(vertices[next + 1], c, normales[next + 1]));
                     vertexes.Add(new VertexPositionColorNormal(vertices[current + 1], c, normales[current + 1]));
-                    vertexes.Add(new VertexPositionColorNormal(vertices[next + 1], c, normales[next + 1]));
-
                     vertexes.Add(new VertexPositionColorNormal(vertices[current], c, normales[current]));
-                    vertexes.Add(new VertexPositionColorNormal(vertices[next + 1], c, normales[next + 1]));
+
                     vertexes.Add(new VertexPositionColorNormal(vertices[next], c, normales[next]));
+                    vertexes.Add(new VertexPositionColorNormal(vertices[next + 1], c, normales[next + 1]));
+                    vertexes.Add(new VertexPositionColorNormal(vertices[current], c, normales[current]));
                 }
             }
 
             //Bottom Cap
             for (int lon = 0; lon < nbLong; lon++)
             {
-                vertexes.Add(new VertexPositionColorNormal(vertices[vertices.Length - 1], c, normales[vertices.Length - 1]));
-                vertexes.Add(new VertexPositionColorNormal(vertices[vertices.Length - (lon + 2) - 1], c, normales[vertices.Length - (lon + 2) - 1]));
                 vertexes.Add(new VertexPositionColorNormal(vertices[vertices.Length - (lon + 1) - 1], c, normales[vertices.Length - (lon + 1) - 1]));
+                vertexes.Add(new VertexPositionColorNormal(vertices[vertices.Length - (lon + 2) - 1], c, normales[vertices.Length - (lon + 2) - 1]));
+                vertexes.Add(new VertexPositionColorNormal(vertices[vertices.Length - 1], c, normales[vertices.Length - 1]));
             }
             #endregion
 

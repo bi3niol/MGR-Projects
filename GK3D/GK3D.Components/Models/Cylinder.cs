@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class Cylinder : BaseModel<VertexPositionColorNormal>
+    public class Cylinder : CustomModel<VertexPositionColorNormal>
     {
         public Cylinder(GraphicsDeviceManager graphics, BasicEffect effect, Color c, float raius, float height, int n) : base(graphics, effect)
         {

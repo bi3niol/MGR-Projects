@@ -1,45 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GK3D.Components.Game;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public abstract class BaseModel<TVertex> : IModel where TVertex : struct, IVertexType
+    public abstract class BaseModel : GameObject, IModel
     {
-        protected TVertex[] Vertexes;
-        protected BasicEffect Effect;
-        protected GraphicsDeviceManager Graphics;
-
         public object Tag { get; set; }
 
-        public BaseModel(GraphicsDeviceManager graphics, BasicEffect effect)
+        private Vector3 _rotation = new Vector3();
+        public Vector3 Rotation
         {
-            Graphics = graphics;
-            Effect = effect;
-        }
-
-        public void Draw(Matrix world, Matrix view, Matrix projection)
-        {
-            if (Effect == null) return;
-
-            int triangleCount = Vertexes.Length / 3;
-
-            Effect.View = view;
-            Effect.World = world;
-            Effect.Projection = projection;
-            Effect.VertexColorEnabled = true;
-
-            Effect.EnableDefaultLighting();
-
-            foreach (var pass in Effect.CurrentTechnique.Passes)
+            get => _rotation;
+            set
             {
-                pass.Apply();
-                Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertexes, 0, triangleCount);
+                if (_rotation == value) return;
+                _rotation = value;
+                UpdateWorldMatrix();
             }
         }
+
+        private Vector3 _position = new Vector3();
+        public Vector3 Position
+        {
+            get => _position;
+            set
+            {
+                if (_position == value) return;
+                _position = value;
+                UpdateWorldMatrix();
+            }
+        } 
+
+        private Vector3 _scale = Vector3.One;
+        public Vector3 Scale
+        {
+            get => _scale;
+            set
+            {
+                if (_scale == value) return;
+                _scale = value;
+                UpdateWorldMatrix();
+            }
+        }
+
+        private Matrix _world;
+        public Matrix World
+        {
+            get => _world;
+            private set => _world = value;
+        }
+
+        private void UpdateWorldMatrix()
+        {
+            World = Matrix.CreateScale(Scale) *
+                Matrix.CreateRotationX(Rotation.X) *
+                Matrix.CreateRotationY(Rotation.Y) *
+                Matrix.CreateRotationZ(Rotation.Z) *
+                Matrix.CreateTranslation(Position);
+        }
+
+        public BaseModel()
+        {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            UpdateWorldMatrix();
+        }
+
+        public abstract void Draw(Matrix view, Matrix projection);
     }
 }

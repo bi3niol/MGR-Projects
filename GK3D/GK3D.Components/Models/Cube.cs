@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class Cube : BaseModel<VertexPositionColorNormal>
+    public class Cube : CustomModel<VertexPositionColorNormal>
     {
         public Cube(GraphicsDeviceManager graphics, BasicEffect effect, float size, Color color) : base(graphics, effect)
         {

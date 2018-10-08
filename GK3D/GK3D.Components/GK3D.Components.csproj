@@ -43,16 +43,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\CameraControllerComponent.cs" />
     <Compile Include="Extensions\ContentManagerExtensions.cs" />
     <Compile Include="Game\GameManager.cs" />
     <Compile Include="Game\IGameState.cs" />
     <Compile Include="Game\IStateManager.cs" />
     <Compile Include="Game\StateManager.cs" />
+    <Compile Include="IGameObject.cs" />
+    <Compile Include="IComponet.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="IXnaModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Cube.cs" />
+    <Compile Include="Models\CustomModel.cs" />
     <Compile Include="Models\Cylinder.cs" />
+    <Compile Include="Game\GameObject.cs" />
     <Compile Include="Models\Sphere.cs" />
     <Compile Include="Models\XnaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
