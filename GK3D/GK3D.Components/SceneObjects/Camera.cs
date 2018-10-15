@@ -1,4 +1,5 @@
-﻿using GK3D.Components.Components;
+﻿using System;
+using GK3D.Components.Components;
 using GK3D.Components.Game;
 using Microsoft.Xna.Framework;
 
@@ -19,31 +20,37 @@ namespace GK3D.Components.SceneObjects
             }
         }
 
-        private Vector3 _up = Vector3.Up;
-        public Vector3 Up
+        private Matrix _coordinateMatrix = new Matrix()
         {
-            get => _up;
-            set
+            Up = Vector3.Up,
+            Right = Vector3.Right,
+            Forward = Vector3.Forward
+        };
+
+        public Matrix CoordinateMatrix
+        {
+            get => _coordinateMatrix;
+            private set
             {
-                if (_up == value)
-                    return;
-                _up = value;
+                if (_coordinateMatrix == value) return;
+                _coordinateMatrix = value;
                 UpdateViewMatrix();
             }
         }
 
-        private Vector3 _lookAt;
-        public Vector3 LookAt
+        private Vector3 Up => CoordinateMatrix.Up;
+        private Vector3 Forward => CoordinateMatrix.Forward;
+        private Vector3 Right => CoordinateMatrix.Right;
+
+
+        private Vector3 _lookAt
         {
-            get => _lookAt;
-            set
+            get
             {
-                if (_lookAt == value)
-                    return;
-                _lookAt = value;
-                UpdateViewMatrix();
+                return Position + Forward;
             }
         }
+
 
         private Matrix viewMAtrix;
         public Matrix ViewMatrix { get => viewMAtrix; set => viewMAtrix = value; }
@@ -51,11 +58,27 @@ namespace GK3D.Components.SceneObjects
         public Camera()
         {
             AddComponent(new CameraControllerComponent(this));
+            AddComponent(new CameraRotationControllerComponent(this));
         }
 
         private void UpdateViewMatrix()
         {
-            ViewMatrix = Matrix.CreateLookAt(_position, _lookAt, _up);
+            ViewMatrix = Matrix.CreateLookAt(_position, _lookAt, Up);
+
+        }
+
+        internal void Rotate(Vector3 rotation)
+        {
+            if (rotation == Vector3.Zero) return;
+            rotation = Vector3.Transform(rotation, CoordinateMatrix);
+            var rot = Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationZ(rotation.Z);
+            CoordinateMatrix *= rot;
+        }
+
+        internal void MoveForward(Vector3 step)
+        {
+            if (step == Vector3.Zero) return;
+            Position += Vector3.Transform(step, CoordinateMatrix);
         }
     }
 }

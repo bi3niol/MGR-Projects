@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,7 +17,7 @@ namespace ProjectLAB.UserControls.Models
         public readonly double DpiX;
         public readonly double DpiY;
 
-        private int Stride;
+        public int Stride { get; private set; }
         private BitmapPalette bmPlatte;
         private PixelFormat pxFormat;
 
@@ -24,7 +27,12 @@ namespace ProjectLAB.UserControls.Models
         private const int BlueOffset = 2;
         private const int AlphaOffset = 3;
 
-        private byte[] data;
+        private bool isHistogramPreparing = false;
+        private int[] rHistogramData;
+        private int[] gHistogramData;
+        private int[] bHistogramData;
+
+        public byte[] data { get; private set; }
         #endregion
         public PictureHandler(byte[] data, int pixelWidth, int pixelHeight, double dpiX, double dpiY)
         {
@@ -63,7 +71,6 @@ namespace ProjectLAB.UserControls.Models
             return position;
         }
 
-
         //Publics
         public Color GetPixelColor(int x, int y)
         {
@@ -75,6 +82,7 @@ namespace ProjectLAB.UserControls.Models
         {
             SetPixelColor(x, y, c.A, c.R, c.G, c.B);
         }
+
         public void SetPixelColor(int x, int y, byte a, byte r, byte g, byte b)
         {
             int pos = GetPositionOfPixel(x, y);
@@ -93,6 +101,41 @@ namespace ProjectLAB.UserControls.Models
         public object Clone()
         {
             return new PictureHandler(data.Clone() as byte[], PixelWidth, PixelHeight, DpiX, DpiY);
+        }
+
+        private object syncPreparingFlag = new object();
+        private Task histogramPreparingTask = null;
+        public Task PrepareHistogramData()
+        {
+            lock (syncPreparingFlag)
+            {
+                if (isHistogramPreparing) return histogramPreparingTask;
+
+                isHistogramPreparing = true;
+                histogramPreparingTask = new Task(() =>
+                {
+                    for (int x = 0; x < PixelWidth; x++)
+                        for (int y = 0; y < PixelHeight; y++)
+                        {
+                            int pos = GetPositionOfPixel(x, y);
+                            rHistogramData[data[pos + RedOffset]]++;
+                            gHistogramData[data[pos + GreenOffset]]++;
+                            bHistogramData[data[pos + BlueOffset]]++;
+                        }
+                }, TaskCreationOptions.LongRunning);
+            }
+            rHistogramData = new int[256];
+            gHistogramData = new int[256];
+            gHistogramData = new int[256];
+            histogramPreparingTask.GetAwaiter().OnCompleted(() =>
+            {
+                lock (syncPreparingFlag)
+                {
+                    isHistogramPreparing = false;
+                }
+            });
+            histogramPreparingTask.Start();
+            return histogramPreparingTask;
         }
     }
 }

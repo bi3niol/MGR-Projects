@@ -65,7 +65,10 @@
   <ItemGroup>
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="ImageOperations\ArrayFilter.cs" />
     <Compile Include="ImageOperations\ErrorDiffusionDitheringImageOperation.cs" />
+    <Compile Include="ImageOperations\FunctionOperation.cs" />
+    <Compile Include="ImageOperations\Functions\ManualFunction.cs" />
     <Compile Include="ImageOperations\IImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayAverageImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayImageOperation.cs" />

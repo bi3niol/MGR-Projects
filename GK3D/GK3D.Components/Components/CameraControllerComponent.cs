@@ -16,7 +16,7 @@ namespace GK3D.Components.Components
             Camera = camera;
         }
 
-        public float MovementSpeed { get; set; } = 8.0f;
+        public float MovementSpeed { get; set; } = 15.0f;
 
         public Camera Camera { get; }
 
@@ -27,21 +27,21 @@ namespace GK3D.Components.Components
 
             var kState = Keyboard.GetState();
             if (kState.IsKeyDown(Keys.W))
-                zS = MovementSpeed;
-            if (kState.IsKeyDown(Keys.S))
                 zS = -MovementSpeed;
+            if (kState.IsKeyDown(Keys.S))
+                zS = MovementSpeed;
 
             if (kState.IsKeyDown(Keys.A))
-                xS = MovementSpeed;
-            if (kState.IsKeyDown(Keys.D))
                 xS = -MovementSpeed;
+            if (kState.IsKeyDown(Keys.D))
+                xS = MovementSpeed;
 
             if (kState.IsKeyDown(Keys.E))
                 yS = MovementSpeed;
             if (kState.IsKeyDown(Keys.Q))
                 yS = -MovementSpeed;
 
-            Camera.Position+=(new Vector3(xS,yS,zS) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            Camera.MoveForward( new Vector3(xS,yS,zS) * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
     }
 }

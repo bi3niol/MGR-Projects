@@ -38,7 +38,6 @@ namespace GK3D.App
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -50,28 +49,29 @@ namespace GK3D.App
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
             manager.StateManager.SetState(States.Main, new ProjectSceneState
             {
                 Camera = new Components.SceneObjects.Camera()
                 {
-                    Position = new Vector3(20, 0, 60),
+                    Position = new Vector3(0, 0, 60),
                 },
                 Models = new System.Collections.Generic.List<IModel>
                 {
-                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.DarkOrange, 10, 10, 10),
-                    new Cube(graphics, new BasicEffect(graphics.GraphicsDevice), 7, Color.Red)
+                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.DarkOrange, 20, 50, 50), //planet
+                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.White, 3,10,10)
                     {
-                        Position = new Vector3(30,15,0),
-                        Rotation = new Vector3(0,45,0)
+                        Position = new Vector3(0,20,0),
                     },
-                    new  Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 11, 11, 15),
-                    Content.LoadXnaModel("Ship2"),
+                    new  Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 1, 6, 14){
+                        Position = new Vector3(2,20,0),
+                        Rotation = new Vector3(0,0,90)
+                    },
                 },
-                Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 1000)
+                Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500)
             });
             manager.StateManager.SetCurrentState(States.Main);
-
+            Components.Add(manager);
         }
 
         /// <summary>
@@ -94,8 +94,6 @@ namespace GK3D.App
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            manager.Update(gameTime);
-
             base.Update(gameTime);
         }
 
@@ -107,8 +105,6 @@ namespace GK3D.App
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
-
-            manager.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

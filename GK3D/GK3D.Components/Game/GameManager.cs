@@ -3,24 +3,24 @@
 
 namespace GK3D.Components.Game
 {
-    public class GameManager
+    public class GameManager : DrawableGameComponent
     {
-        public Microsoft.Xna.Framework.Game Game { get; private set; }
         public IStateManager StateManager { get; private set; }
 
-        public GameManager(Microsoft.Xna.Framework.Game game, IStateManager manager)
+        public GameManager(Microsoft.Xna.Framework.Game game, IStateManager manager) : base(game)
         {
-            Game = game;
             StateManager = manager;
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             StateManager?.Draw(gameTime);
+            base.Draw(gameTime);
         }
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             StateManager?.Update(gameTime);
+            base.Update(gameTime);
         }
     }
 }

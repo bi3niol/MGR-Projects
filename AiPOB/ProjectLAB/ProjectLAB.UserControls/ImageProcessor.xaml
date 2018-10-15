@@ -7,8 +7,90 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel IsEnabled="{Binding IsEnabled}">
-        <Button Command="{Binding LoadImageCommand}">Show Image</Button>
-        <Button Command="{Binding TrigerImageOperationCommand}">Trigger operation</Button> 
-        <Label Content="{Binding Name}"/>
+        <Button Command="{Binding LoadImageCommand}">Wczytaj Obraz</Button>
+        <Button Command="{Binding ShowOrginalImageCommand}">Pokaż orginał</Button>
+        <TabControl>
+            <TabItem Header="Przekształcenia funkcyjne">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <GroupBox Header="Rysuj Funkcję" BorderBrush="#FF333434">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Left">
+                                    <Label Content="255" Height="257" VerticalAlignment="Top"/>
+                                    <Label Content="0" VerticalAlignment="Bottom"/>
+                                </StackPanel>
+                                <Border BorderBrush="Black" BorderThickness="2,2,2,2" DockPanel.Dock="Top">
+                                    <Image x:Name="ManualFunctionImage" Width="255" Height="255" VerticalAlignment="Top"/>
+                                </Border>
+                                <Label Content="255" VerticalAlignment="Bottom" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                            </DockPanel>
+                        </GroupBox>
+                        <StackPanel>
+                            <Button Command="{Binding BinarizeCommand}">Binaryzacja</Button>
+                            <Label>Odcienie szarości :</Label>
+                            <Button Command="{Binding ToGrayAverageCommand}">Algorytm uśredniający</Button>
+                            <Button Command="{Binding ToGrayWithEyeAdaptationCommand}">Algorytm uwzględniający czułość oka</Button>
+                        </StackPanel>
+
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Przekształcenia macierzowe">
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Width="90" Height="90" ShowGridLines="True" IsEnabled="{Binding CurrentOperation.EditEnable}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox TextAlignment="Center" Grid.Column="0" Grid.Row="0" Text="{Binding CurrentOperation.a00}" />
+                        <TextBox TextAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding CurrentOperation.a01}" />
+                        <TextBox TextAlignment="Center" Grid.Column="2" Grid.Row="0" Text="{Binding CurrentOperation.a02}" />
+
+                        <TextBox TextAlignment="Center" Grid.Column="0" Grid.Row="1" Text="{Binding CurrentOperation.a10}" />
+                        <TextBox TextAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding CurrentOperation.a11}" />
+                        <TextBox TextAlignment="Center" Grid.Column="2" Grid.Row="1" Text="{Binding CurrentOperation.a12}" />
+
+                        <TextBox TextAlignment="Center" Grid.Column="0" Grid.Row="2" Text="{Binding CurrentOperation.a20}" />
+                        <TextBox TextAlignment="Center" Grid.Column="1" Grid.Row="2" Text="{Binding CurrentOperation.a21}" />
+                        <TextBox TextAlignment="Center" Grid.Column="2" Grid.Row="2" Text="{Binding CurrentOperation.a22}" />
+                    </Grid>
+                    <TabControl Grid.Column="1" TabStripPlacement="Right">
+                        <TabItem Header="Wykrywanie krawędzi">
+                            <StackPanel>
+                                <Button Command="{Binding EdgeDetectLaplaceCommand}">Laplace'a</Button>
+                                <Button Command="{Binding EdgeDetectDiagonalCommand}">Diagonalny</Button>
+                                <Button Command="{Binding EdgeDetectHorizontalCommand}">Poziomy</Button>
+                                <Button Command="{Binding EdgeDetectVerticalCommand}">Pionowy</Button>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Rzeźbiące">
+                            <StackPanel>
+                                <Button Command="{Binding SculptureEastCommand}">Wschodni</Button>
+                                <Button Command="{Binding SculptureSouthEastCommand}">Południowo wschodni</Button>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Przepustowe">
+                            <StackPanel>
+                                <Button Command="{Binding UpperProofFilterCommand}">Górno-przepustowy - Mean Removal</Button>
+                                <Button Command="{Binding LowerProofFilterBlurNCommand}">Dolno-przepustowy - Blur N</Button>
+                                <Button Command="{Binding LowerProofFilterGaussCommand}">Dolno-przepustowy - Gauss</Button>
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Histogram">sd</TabItem>
+        </TabControl>
     </StackPanel>
 </UserControl>

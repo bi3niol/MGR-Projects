@@ -44,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\CameraControllerComponent.cs" />
+    <Compile Include="Components\CameraRotationControllerComponent.cs" />
     <Compile Include="Extensions\ContentManagerExtensions.cs" />
     <Compile Include="Game\GameManager.cs" />
     <Compile Include="Game\IGameState.cs" />
