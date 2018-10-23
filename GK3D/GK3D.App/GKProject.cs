@@ -1,6 +1,7 @@
 ﻿using GK3D.Components;
 using GK3D.Components.Game;
 using GK3D.Components.Models;
+using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,6 +21,8 @@ namespace GK3D.App
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameManager manager;
+
+        SimpleEffect effect;
 
         public GKProject()
         {
@@ -49,24 +52,29 @@ namespace GK3D.App
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            effect = new SimpleEffect(graphics, Content.Load<Effect>("Shaders/Simple"));
+            var satelite = Content.LoadXnaModel("Satellite", effect);
+            satelite.Effect = effect;
+            satelite.Scale = new Vector3(5, 5, 5);
             manager.StateManager.SetState(States.Main, new ProjectSceneState
             {
+                Effect = effect,
                 Camera = new Components.SceneObjects.Camera()
                 {
                     Position = new Vector3(0, 0, 60),
                 },
                 Models = new System.Collections.Generic.List<IModel>
                 {
-                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.DarkOrange, 20, 50, 50), //planet
-                    new Sphere(graphics, new BasicEffect(graphics.GraphicsDevice), Color.White, 3,10,10)
+                    new Sphere(graphics, effect, Color.DarkOrange, 20, 15, 15), //planet
+                    new Sphere(graphics, effect, Color.White, 3,10,10)
                     {
                         Position = new Vector3(0,20,0),
                     },
-                    new  Cylinder(graphics, new BasicEffect(graphics.GraphicsDevice), Color.Wheat, 1, 6, 14){
+                    new  Cylinder(graphics, effect, Color.Wheat, 1, 6, 14){
                         Position = new Vector3(2,20,0),
                         Rotation = new Vector3(0,0,90)
                     },
+                    satelite
                 },
                 Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500)
             });

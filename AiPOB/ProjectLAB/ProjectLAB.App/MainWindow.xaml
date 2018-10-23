@@ -5,19 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectLAB.App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Projekt 1" Height="450" Width="800">
     <Grid>
         <Border Padding="10">
             <!--buttons-->
             <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" x:Name="Image"/>
-                    <UserControls:ImageProcessor Grid.Column="1" x:Name="ImageProcessorCtrl"/>
-                </Grid>
+                <UserControls:ImageProcessor x:Name="ImageProcessorCtrl"/>
             </StackPanel>
         </Border>
     </Grid>

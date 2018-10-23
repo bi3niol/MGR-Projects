@@ -68,17 +68,21 @@ namespace ProjectLAB.UserControls.ImageOperations
 
         public static float[,] LOWERPROOFFILTER_BLUR_N => _LOWERPROOFFILTER_BLUR_N.Clone() as float[,];
         public static float[,] LOWERPROOFFILTER_GAUSS => _LOWERPROOFFILTER_GAUSS.Clone() as float[,];
-
         public static float[,] UPPERPROOFFILTER_MEAN_REMOVAL => _UPPERPROOFFILTER_MEAN_REMOVAL.Clone() as float[,];
-
         public static float[,] EDGE_DETECT_VERTICAL_FILTER => _EDGE_DETECT_VERTICAL_FILTER.Clone() as float[,];
         public static float[,] EDGE_DETECT_LAPLACE_FILTER => _EDGE_DETECT_LAPLACE_FILTER.Clone() as float[,];
         public static float[,] EDGE_DETECT_HORIZONTAL_FILTER => _EDGE_DETECT_HORIZONTAL_FILTER.Clone() as float[,];
         public static float[,] EDGE_DETECT_DIAGONAL_FILTER => _EDGE_DETECT_DIAGONAL_FILTER.Clone() as float[,];
-
         public static float[,] SCULPTURE_EAST_FILTER => _SCULPTURE_EAST_FILTER.Clone() as float[,];
         public static float[,] SCULPTURE_SOUTH_EAST_FILTER => _SCULPTURE_SOUTH_EAST_FILTER.Clone() as float[,];
+        public static float[,] DEFAULT_FILTER => _DEFAULT_FILTER.Clone() as float[,];
 
+
+        private static float[,] _DEFAULT_FILTER = new float[,]{
+            {0, 0, 0 },
+            {0, 1, 0 },
+            {0, 0, 0 },
+        };
 
         private static float[,] _LOWERPROOFFILTER_BLUR_N = new float[,]{
             {1,1,1,1,1 },

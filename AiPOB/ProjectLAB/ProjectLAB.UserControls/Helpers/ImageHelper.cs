@@ -29,10 +29,19 @@ namespace ProjectLAB.UserControls
         {
             var openFile = new Microsoft.Win32.OpenFileDialog();
             openFile.Multiselect = false;
-
             if (openFile.ShowDialog() == true)
                 return openFile.FileName;
 
+            return null;
+        }
+
+        public static string SavePicture()
+        {
+            var saveFile = new Microsoft.Win32.SaveFileDialog();
+            saveFile.Filter = "All types (*.png)|*.png";
+            saveFile.DefaultExt = "png";
+            if (saveFile.ShowDialog() == true)
+                return saveFile.FileName;
             return null;
         }
     }

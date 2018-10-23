@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
     public class Cube : CustomModel<VertexPositionColorNormal>
     {
-        public Cube(GraphicsDeviceManager graphics, BasicEffect effect, float size, Color color) : base(graphics, effect)
+        public Cube(GraphicsDeviceManager graphics, SimpleEffect effect, float size, Color color) : base(effect)
         {
             Vertexes = new VertexPositionColorNormal[36];
             var Size = new Vector3(size);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,14 +18,13 @@ namespace GK3D.Components.Models
             set => model.Root = value;
         }
 
+        public SimpleEffect Effect { get; set; }
 
-        public XnaModel(Model m) : base()
+        public XnaModel(SimpleEffect effect, Model m) : base()
         {
+            Effect = effect;
             model = m;
         }
-
-        public XnaModel(GraphicsDevice graphicsDevice, List<ModelBone> bones, List<ModelMesh> meshes):this(new Model(graphicsDevice, bones, meshes))
-        {}
 
         public void CopyAbsoluteBoneTransformsTo(Matrix[] destinationBoneTransforms)
         {
@@ -43,6 +43,17 @@ namespace GK3D.Components.Models
 
         public override void Draw(Matrix view, Matrix projection)
         {
+            Effect.View = view;
+            Effect.Projection = projection;
+            Effect.World = World;
+
+            //foreach (var mesh in model.Meshes)
+            //{
+            //    foreach (var part in mesh.MeshParts)
+            //    {
+            //        part.Effect = Effect;
+            //    }
+            //}
             model.Draw(World, view, projection);
         }
     }

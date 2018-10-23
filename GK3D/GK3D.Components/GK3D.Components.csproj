@@ -63,6 +63,7 @@
     <Compile Include="Models\XnaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneObjects\Camera.cs" />
+    <Compile Include="Shaders\SimpleEffect.cs" />
     <Compile Include="VertexPositionColorNormal.cs" />
   </ItemGroup>
   <ItemGroup>

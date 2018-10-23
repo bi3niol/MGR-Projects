@@ -1,6 +1,7 @@
 ﻿using GK3D.Components;
 using GK3D.Components.Game;
 using GK3D.Components.SceneObjects;
+using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -12,9 +13,11 @@ namespace GK3D.App
         public Matrix Projection { get; set; }
         public List<IModel> Models { get; set; } = new List<IModel>();
         public IStateManager ParentManager { get; set; }
+        public SimpleEffect Effect { get; set; }
 
         public void Draw(GameTime gameTime)
         {
+            Effect.CameraPosition = Camera.Position;
             foreach (var model in Models)
                 model.Draw(Camera.ViewMatrix, Projection);
         }

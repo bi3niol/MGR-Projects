@@ -37,6 +37,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanged, Version=1.52.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.1.52.1\lib\netstandard10\PropertyChanged.dll</HintPath>
       <Private>False</Private>
@@ -44,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
@@ -66,10 +73,14 @@
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="ImageOperations\ArrayFilter.cs" />
+    <Compile Include="ImageOperations\BrightnessImageOperation.cs" />
+    <Compile Include="ImageOperations\ContrastImageOperation.cs" />
     <Compile Include="ImageOperations\ErrorDiffusionDitheringImageOperation.cs" />
     <Compile Include="ImageOperations\FunctionOperation.cs" />
     <Compile Include="ImageOperations\Functions\ManualFunction.cs" />
+    <Compile Include="ImageOperations\HistogramStretchingImageOperation.cs" />
     <Compile Include="ImageOperations\IImageOperation.cs" />
+    <Compile Include="ImageOperations\NegationImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayAverageImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayImageOperation.cs" />
     <Compile Include="Menagers\ProcessorManager.cs" />

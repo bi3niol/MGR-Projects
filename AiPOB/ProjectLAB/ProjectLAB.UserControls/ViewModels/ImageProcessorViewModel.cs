@@ -1,4 +1,5 @@
-﻿using ProjectLAB.UserControls.ImageOperations;
+﻿using OxyPlot;
+using ProjectLAB.UserControls.ImageOperations;
 using ProjectLAB.UserControls.ImageOperations.Functions;
 using ProjectLAB.UserControls.Menagers;
 using ProjectLAB.UserControls.ViewModels.Base;
@@ -13,7 +14,7 @@ namespace ProjectLAB.UserControls.ViewModels
     public class ImageProcessorViewModel : Base.BaseViewModel
     {
         #region Fields
-        private ProcessorManager manager = new ProcessorManager();
+        private ProcessorManager manager;
         public readonly List<IImageOperation> Operations = new List<IImageOperation>()
         {
             new ManualFunction(new byte[256]),
@@ -32,15 +33,32 @@ namespace ProjectLAB.UserControls.ViewModels
             new ArrayFilter(ArrayFilter.LOWERPROOFFILTER_BLUR_N),
             new ArrayFilter(ArrayFilter.LOWERPROOFFILTER_GAUSS),
 
+            new ArrayFilter(ArrayFilter.DEFAULT_FILTER){
+                EditEnable=true
+            },
 
+            new HistogramStretchingImageOperation(),
+            new NegationImageOperation(),
         };
 
         public IImageOperation CurrentOperation { get; private set; }
         public bool IsEnabled { get; set; } = true;
+
+        public List<DataPoint> HistogramDataR { get; set; }
+        public List<DataPoint> HistogramDataG { get; set; }
+        public List<DataPoint> HistogramDataB { get; set; }
+
+        public List<DataPoint> VerticalProjectionData { get; set; }
+        public List<DataPoint> HorizontalProjectionData { get; set; }
+
+        public IImageOperation BrightnessOperation { get; set; }
+        public IImageOperation ContrastOperation { get; set; }
         #endregion
 
         #region Commands
         public ICommand LoadImageCommand { get; set; }
+        public ICommand SaveImageCommand { get; set; }
+
         public ICommand ToGrayAverageCommand { get; set; }
         public ICommand ToGrayWithEyeAdaptationCommand { get; set; }
         public ICommand BinarizeCommand { get; set; }
@@ -58,12 +76,24 @@ namespace ProjectLAB.UserControls.ViewModels
         public ICommand LowerProofFilterBlurNCommand { get; set; }
         public ICommand LowerProofFilterGaussCommand { get; set; }
 
+        public ICommand DefaultFilterGaussCommand { get; set; }
+        public ICommand SetOperationToDefaultFilterCommand { get; set; }
 
+        public ICommand HistogramStretchingCommand { get; set; }
+
+        public ICommand CalculateHistogramCommand { get; set; }
+        public ICommand NegationCommand { get; set; }
+        public ICommand BrightnessCommand { get; set; }
+        public ICommand ContrastCommand { get; set; }
         #endregion
 
         public ImageProcessorViewModel()
         {
+            manager = new ProcessorManager(this);
+
             LoadImageCommand = new RelayCommand(LoadNewImage);
+            SaveImageCommand = new RelayCommand(SaveImage);
+
             BinarizeCommand = new RelayCommand(TrigerImageOperation(Operations[1]));
             ToGrayWithEyeAdaptationCommand = new RelayCommand(TrigerImageOperation(Operations[2]));
             ToGrayAverageCommand = new RelayCommand(TrigerImageOperation(Operations[3]));
@@ -79,8 +109,18 @@ namespace ProjectLAB.UserControls.ViewModels
             LowerProofFilterBlurNCommand = new RelayCommand(TrigerImageOperation(Operations[11]));
             LowerProofFilterGaussCommand = new RelayCommand(TrigerImageOperation(Operations[12]));
 
+            SetOperationToDefaultFilterCommand = new RelayCommand((o) => CurrentOperation = Operations[13]);
+            DefaultFilterGaussCommand = new RelayCommand(TrigerImageOperation(Operations[13]));
+            HistogramStretchingCommand = new RelayCommand(TrigerImageOperation(Operations[14]));
+            ShowOrginalImageCommand = new RelayCommand((o => manager.Reset()));
+            NegationCommand = new RelayCommand(TrigerImageOperation(Operations[15]));
+            CalculateHistogramCommand = new RelayCommand(CalculateHistogram);
 
-            ShowOrginalImageCommand = new RelayCommand((o=>manager.Reset()));
+            BrightnessOperation = new BrightnessImageOperation();
+            BrightnessCommand = new RelayCommand(TrigerImageOperation(BrightnessOperation));
+
+            ContrastOperation = new ContrastImageOperation();
+            ContrastCommand = new RelayCommand(TrigerImageOperation(ContrastOperation));
         }
 
         public void SetTargetImage(Image targetImage)
@@ -93,13 +133,33 @@ namespace ProjectLAB.UserControls.ViewModels
         }
 
         #region Command methods
-        private void LoadNewImage(object parameters)
+        private async void CalculateHistogram(object parameters)
+        {
+            IsEnabled = false;
+
+            await manager.CalculateHistogram();
+            manager.ApplyHistogram();
+
+            IsEnabled = true;
+        }
+
+        private async void LoadNewImage(object parameters)
         {
             IsEnabled = false;
 
             string file = ImageHelper.SelectPicture();
             if (!string.IsNullOrEmpty(file))
                 manager.LoadPicture(file);
+
+            IsEnabled = true;
+        }
+
+        private void SaveImage(object parameters)
+        {
+            IsEnabled = false;
+
+            string file = ImageHelper.SavePicture();
+            manager.SavePicture(file);
 
             IsEnabled = true;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,7 +8,7 @@ namespace GK3D.Components.Models
 {
     public class Cylinder : CustomModel<VertexPositionColorNormal>
     {
-        public Cylinder(GraphicsDeviceManager graphics, BasicEffect effect, Color c, float raius, float height, int n) : base(graphics, effect)
+        public Cylinder(GraphicsDeviceManager graphics, SimpleEffect effect, Color c, float raius, float height, int n) : base(effect)
         {
             Vector3[] pos = new Vector3[2 * (n + 1)];
             Vector3[] normals = new Vector3[pos.Length];

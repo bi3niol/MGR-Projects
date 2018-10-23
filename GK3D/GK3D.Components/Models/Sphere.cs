@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +11,7 @@ namespace GK3D.Components.Models
 {
     public class Sphere : CustomModel<VertexPositionColorNormal>
     {
-        public Sphere(GraphicsDeviceManager graphics, BasicEffect effect, Color c, float radius, int nbLat, int nbLong) : base(graphics, effect)
+        public Sphere(GraphicsDeviceManager graphics, SimpleEffect effect, Color c, float radius, int nbLat, int nbLong) : base(effect)
         {
             Vertexes = new VertexPositionColorNormal[(nbLong + 1) * nbLat + 2];
             Vector3[] vertices = new Vector3[(nbLong + 1) * nbLat + 2];

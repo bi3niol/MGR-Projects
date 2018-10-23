@@ -1,4 +1,6 @@
-﻿using ProjectLAB.UserControls.ViewModels;
+﻿using OxyPlot;
+using OxyPlot.Wpf;
+using ProjectLAB.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,23 +25,10 @@ namespace ProjectLAB.UserControls
     public partial class ImageProcessor : UserControl
     {
         private ImageProcessorViewModel viewModel = new ImageProcessorViewModel();
-        public Image TargetImage
-        {
-            get
-            {
-                return viewModel.GetTargetImage();
-            }
-            set
-            {
-                if (viewModel.GetTargetImage() == value)
-                    return;
-
-                viewModel.SetTargetImage(value);
-            }
-        }
         public ImageProcessor()
         {
             InitializeComponent();
+            viewModel.SetTargetImage(Image);
             DataContext = viewModel;
         }
     }

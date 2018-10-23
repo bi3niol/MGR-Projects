@@ -23,7 +23,6 @@ namespace ProjectLAB.App
         public MainWindow()
         {
             InitializeComponent();
-            ImageProcessorCtrl.TargetImage = Image;
         }
     }
 }
