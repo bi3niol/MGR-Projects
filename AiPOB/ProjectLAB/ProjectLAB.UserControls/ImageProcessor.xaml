@@ -19,7 +19,7 @@
                         <oxy:LineSeries Color="Black" ItemsSource="{Binding VerticalProjectionData}"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
-                <Image x:Name="Image"/>
+                <Image x:Name="Image" Source="startimg.png"/>
             </StackPanel>
             <oxy:Plot HorizontalAlignment="Left" Width="{Binding Source.Width, ElementName=Image}" Height="200" Margin="200,0,0,0">
                 <oxy:Plot.Series>
@@ -129,6 +129,7 @@
                         </oxy:Plot>
                         <!--<Button Command="{Binding CalculateHistogramCommand}">Przelicz</Button>-->
                         <Button Command="{Binding HistogramStretchingCommand}">Rozciągnięcie</Button>
+                        <Button Command="{Binding HistogramEqualizationCommand}">Wyrównanie</Button> 
                     </StackPanel>
                 </TabItem>
             </TabControl>

@@ -72,12 +72,14 @@
   <ItemGroup>
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="ImageOperations\ArrayFilter.cs" />
     <Compile Include="ImageOperations\BrightnessImageOperation.cs" />
     <Compile Include="ImageOperations\ContrastImageOperation.cs" />
     <Compile Include="ImageOperations\ErrorDiffusionDitheringImageOperation.cs" />
     <Compile Include="ImageOperations\FunctionOperation.cs" />
     <Compile Include="ImageOperations\Functions\ManualFunction.cs" />
+    <Compile Include="ImageOperations\HistogramEqualizationImageOperation.cs" />
     <Compile Include="ImageOperations\HistogramStretchingImageOperation.cs" />
     <Compile Include="ImageOperations\IImageOperation.cs" />
     <Compile Include="ImageOperations\NegationImageOperation.cs" />
@@ -124,7 +126,9 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="startimg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

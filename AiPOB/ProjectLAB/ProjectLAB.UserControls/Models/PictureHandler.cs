@@ -114,6 +114,17 @@ namespace ProjectLAB.UserControls.Models
             return position;
         }
 
+        public void GetHistogramDataFor(int i, out float r, out float g, out float b)
+        {
+            r = g = b = 0;
+            if (rHistogramData != null)
+            {
+                r = rHistogramData[i];
+                g = gHistogramData[i];
+                b = bHistogramData[i];
+            }
+        }
+
         //Publics
         public Color GetPixelColor(int x, int y)
         {
@@ -153,6 +164,8 @@ namespace ProjectLAB.UserControls.Models
         }
 
         private object syncPreparingFlag = new object();
+
+
 
         [NonSerialized]
         private Task histogramPreparingTask = null;

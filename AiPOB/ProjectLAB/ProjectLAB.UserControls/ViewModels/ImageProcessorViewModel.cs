@@ -39,6 +39,7 @@ namespace ProjectLAB.UserControls.ViewModels
 
             new HistogramStretchingImageOperation(),
             new NegationImageOperation(),
+            new HistogramEqualizationImageOperation()
         };
 
         public IImageOperation CurrentOperation { get; private set; }
@@ -80,6 +81,7 @@ namespace ProjectLAB.UserControls.ViewModels
         public ICommand SetOperationToDefaultFilterCommand { get; set; }
 
         public ICommand HistogramStretchingCommand { get; set; }
+        public ICommand HistogramEqualizationCommand { get; set; }
 
         public ICommand CalculateHistogramCommand { get; set; }
         public ICommand NegationCommand { get; set; }
@@ -115,6 +117,7 @@ namespace ProjectLAB.UserControls.ViewModels
             ShowOrginalImageCommand = new RelayCommand((o => manager.Reset()));
             NegationCommand = new RelayCommand(TrigerImageOperation(Operations[15]));
             CalculateHistogramCommand = new RelayCommand(CalculateHistogram);
+            HistogramEqualizationCommand = new RelayCommand(TrigerImageOperation(Operations[16]));
 
             BrightnessOperation = new BrightnessImageOperation();
             BrightnessCommand = new RelayCommand(TrigerImageOperation(BrightnessOperation));
@@ -159,7 +162,8 @@ namespace ProjectLAB.UserControls.ViewModels
             IsEnabled = false;
 
             string file = ImageHelper.SavePicture();
-            manager.SavePicture(file);
+            if (!string.IsNullOrEmpty(file))
+                manager.SavePicture(file);
 
             IsEnabled = true;
         }

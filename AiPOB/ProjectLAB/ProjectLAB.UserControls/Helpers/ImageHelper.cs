@@ -18,11 +18,19 @@ namespace ProjectLAB.UserControls
             if (!File.Exists(path))
                 return null;
             BitmapSource img = new BitmapImage(new Uri(path, UriKind.RelativeOrAbsolute));
-            if(img.Format!=PixelFormats.Bgra32)
-                img = new FormatConvertedBitmap(img, PixelFormats.Bgra32, null, 100);
-            byte[] pixels = new byte[4 * img.PixelHeight * img.PixelWidth];
-            img.CopyPixels(pixels, (int)(4 * img.PixelWidth), 0);
-            return new PictureHandler(pixels, img.PixelWidth, img.PixelHeight, img.DpiX, img.DpiY);
+            return GetPictureHandler(img);
+        }
+
+        public static PictureHandler GetPictureHandler(BitmapSource source)
+        {
+            if (source == null)
+                return null;
+
+            if (source.Format != PixelFormats.Bgra32)
+                source = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 100);
+            byte[] pixels = new byte[4 * source.PixelHeight * source.PixelWidth];
+            source.CopyPixels(pixels, (int)(4 * source.PixelWidth), 0);
+            return new PictureHandler(pixels, source.PixelWidth, source.PixelHeight, source.DpiX, source.DpiY);
         }
 
         public static string SelectPicture()

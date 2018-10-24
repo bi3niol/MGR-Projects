@@ -20,10 +20,18 @@ namespace ProjectLAB.UserControls.Menagers
         private WriteableBitmap bmp;
         private ImageProcessorViewModel processorViewModel;
 
+        private Image _targetImage;
         public Image TargetImage
         {
-            get;
-            set;
+            get
+            {
+                return _targetImage;
+            }
+            set
+            {
+                _targetImage = value;
+                LoadPicture(_targetImage.Source as BitmapSource);
+            }
         }
 
         public ProcessorManager(ImageProcessorViewModel vm)
@@ -34,6 +42,13 @@ namespace ProjectLAB.UserControls.Menagers
         public bool LoadPicture(string path)
         {
             SourcePicture = ImageHelper.GetPictureHandler(path);
+            var res = SourcePicture != null;
+            Apply(res);
+            return res;
+        }
+        public bool LoadPicture(BitmapSource source)
+        {
+            SourcePicture = ImageHelper.GetPictureHandler(source);
             var res = SourcePicture != null;
             Apply(res);
             return res;
