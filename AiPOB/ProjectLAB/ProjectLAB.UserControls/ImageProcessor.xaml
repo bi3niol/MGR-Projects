@@ -35,6 +35,10 @@
                 <TabItem Header="Przekształcenia funkcyjne">
                     <StackPanel>
                         <Button Command="{Binding BinarizeCommand}">Binaryzacja</Button>
+
+                        <TextBlock Text="{Binding ThresholdingOperation.Threshold}" Margin="0,15,0,0"></TextBlock>
+                        <Slider Minimum="0" Maximum="255" Value="{Binding ThresholdingOperation.Threshold}"/>
+                        <Button Command="{Binding ThresholdingCommand}">Progowanie</Button>
                         <Label>Odcienie szarości</Label>
                         <Button Command="{Binding ToGrayAverageCommand}">Algorytm uśredniający</Button>
                         <Button Command="{Binding ToGrayWithEyeAdaptationCommand}">Algorytm uwzględniający czułość oka</Button>

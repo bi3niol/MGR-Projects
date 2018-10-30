@@ -83,6 +83,7 @@
     <Compile Include="ImageOperations\HistogramStretchingImageOperation.cs" />
     <Compile Include="ImageOperations\IImageOperation.cs" />
     <Compile Include="ImageOperations\NegationImageOperation.cs" />
+    <Compile Include="ImageOperations\ThresholdingImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayAverageImageOperation.cs" />
     <Compile Include="ImageOperations\ToGrayImageOperation.cs" />
     <Compile Include="Menagers\ProcessorManager.cs" />

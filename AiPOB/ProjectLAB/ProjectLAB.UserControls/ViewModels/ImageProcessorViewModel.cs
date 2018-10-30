@@ -39,7 +39,7 @@ namespace ProjectLAB.UserControls.ViewModels
 
             new HistogramStretchingImageOperation(),
             new NegationImageOperation(),
-            new HistogramEqualizationImageOperation()
+            new HistogramEqualizationImageOperation(),
         };
 
         public IImageOperation CurrentOperation { get; private set; }
@@ -54,6 +54,7 @@ namespace ProjectLAB.UserControls.ViewModels
 
         public IImageOperation BrightnessOperation { get; set; }
         public IImageOperation ContrastOperation { get; set; }
+        public IImageOperation ThresholdingOperation { get; set; }
         #endregion
 
         #region Commands
@@ -87,6 +88,7 @@ namespace ProjectLAB.UserControls.ViewModels
         public ICommand NegationCommand { get; set; }
         public ICommand BrightnessCommand { get; set; }
         public ICommand ContrastCommand { get; set; }
+        public ICommand ThresholdingCommand { get; set; }
         #endregion
 
         public ImageProcessorViewModel()
@@ -124,6 +126,9 @@ namespace ProjectLAB.UserControls.ViewModels
 
             ContrastOperation = new ContrastImageOperation();
             ContrastCommand = new RelayCommand(TrigerImageOperation(ContrastOperation));
+
+            ThresholdingOperation = new ThresholdingImageOperation();
+            ThresholdingCommand = new RelayCommand(TrigerImageOperation(ThresholdingOperation));
         }
 
         public void SetTargetImage(Image targetImage)
