@@ -6,18 +6,17 @@ float3 CameraPosition = float3(0, 0, 60);
 float4 AmbientColor = float4(1, 1, 1, 1);
 float Ka = 0.3;
 /* Lights */
-#define MAXLIGHT 10
-float LightPower[1];
-float4 LightPosition_Direction[1];
+#define MAXLIGHT 1
+float LightPower[MAXLIGHT];
+float4 LightPosition_Direction[MAXLIGHT];
 
-float4 LightDiffuseColor[1];
-float LightKDiffuse[1];
+float4 LightDiffuseColor[MAXLIGHT];
+float LightKDiffuse[MAXLIGHT];
 
-float4 LightSpecularColor[1];
-float LightKSpecular[1];
+float4 LightSpecularColor[MAXLIGHT];
+float LightKSpecular[MAXLIGHT];
 
-int LightType[1]; /*0 - directional, 1 - point, 2 - spot*/
-bool LightEnabled[1];
+float LightType[MAXLIGHT]; /*0 - directional, 1 - point, 2 - spot*/
 
 int LightCount = 0;
 float SpecularM = 15;
@@ -61,17 +60,15 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 view = normalize(float4(CameraPosition, 1.0) - input.Position1);;
 	for (int i = 0; i < LightCount; i++)
 	{
-		if (LightEnabled[i] == true) {
 			lightDir = LightPosition_Direction[i];
 			lightType = LightType[i];
 			if (lightType != 0) {/* not directional */
 				lightDir = normalize(lightDir - input.Position1);
 			}
-			float4 diffuse = saturate(dot(-lightDir, input.Normal));
+			float4 diffuse = saturate(dot(lightDir, input.Normal));
 			float4 reflect = normalize(2 * diffuse*input.Normal - lightDir);
 			float4 specular = pow(saturate(dot(reflect, view)), SpecularM);
 			c = c + (LightDiffuseColor[i] * LightKDiffuse[i] * diffuse + LightSpecularColor[i] * LightKSpecular[i] * specular)*input.Color*LightPower[i];
-		}
 	}
 	return saturate(c + AmbientColor * input.Color*Ka);
 }

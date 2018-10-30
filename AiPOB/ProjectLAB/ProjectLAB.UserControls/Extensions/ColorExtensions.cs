@@ -15,10 +15,10 @@ namespace ProjectLAB.UserControls.Extensions
             return Color.FromRgb(val, val, val);
         }
 
-        public static Color BlacOrWite(this Color c)
+        public static Color BlacOrWite(this Color c, int threshold = 126)
         {
             byte val = (byte)((3 * c.R + 5 * c.G + c.B) / 9);
-            return val < 126 ? Colors.Black : Colors.White;
+            return val < threshold ? Colors.Black : Colors.White;
         }
 
         //public static Color Add(this Color c, Color other)

@@ -53,6 +53,16 @@ namespace GK3D.App
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new SimpleEffect(graphics, Content.Load<Effect>("Shaders/Simple"));
+            effect.AddLight(new GK3D.Components.SceneObjects.Light
+            {
+                DiffuseColor = Color.White,
+                Type = GK3D.Components.SceneObjects.LightType.Directional,
+                Direction = new Vector4(1,1,0,0),
+                KDiffuse = 0.3f,
+                Power = 0.7f,
+                SpecularColor = Color.Blue,
+                KSpecular = 0.8f
+            });
             var satelite = Content.LoadXnaModel("Satellite", effect);
             satelite.Effect = effect;
             satelite.Scale = new Vector3(5, 5, 5);
