@@ -8,33 +8,34 @@ float Ka = 0.3;
 /* Lights */
 #define MAXLIGHT 1
 float LightPower[MAXLIGHT];
-float4 LightPosition_Direction[MAXLIGHT];
 
-float4 LightDiffuseColor[MAXLIGHT];
+float3 LightPosition[MAXLIGHT];
+float3 LightDirection[MAXLIGHT];
+float3 LightColor[MAXLIGHT];
+
 float LightKDiffuse[MAXLIGHT];
 
-float4 LightSpecularColor[MAXLIGHT];
 float LightKSpecular[MAXLIGHT];
 
 float LightType[MAXLIGHT]; /*0 - directional, 1 - point, 2 - spot*/
 
 int LightCount = 0;
-float SpecularM = 15;
+float SpecularM = 12;
 
 
 struct VertexShaderInput
 {
 	float4 Position : POSITION0;
 	float4 Color : COLOR0;
-	float4 Normal : NORMAL;
+	float3 Normal : NORMAL;
 };
 
 struct VertexShaderOutput
 {
 	float4 Position : POSITION0;
 	float4 Color : COLOR0;
-	float4 Normal : NORMAL;
-	float4 Position1 : POSITION1;
+	float3 Normal : NORMAL;
+	float4 WorldPosition : POSITION1;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -48,29 +49,29 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float4 normal = normalize(mul(input.Normal, World));
 	output.Normal = normal;
 	output.Color = input.Color;
-	output.Position1 = float4(output.Position);
+	output.WorldPosition = worldPosition;
 	return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	float4 c = float4(0,0,0,0);
-	float4 lightDir;
+	float3 c = float3(0,0,0);
+	float3 lightDir;
 	int lightType;
-	float4 view = normalize(float4(CameraPosition, 1.0) - input.Position1);;
+	float3 view = normalize(input.WorldPosition - CameraPosition);
 	for (int i = 0; i < LightCount; i++)
 	{
-			lightDir = LightPosition_Direction[i];
+			lightDir = LightDirection[i];
 			lightType = LightType[i];
 			if (lightType != 0) {/* not directional */
-				lightDir = normalize(lightDir - input.Position1);
+				lightDir = normalize(LightPosition[i] - input.WorldPosition);
 			}
-			float4 diffuse = saturate(dot(lightDir, input.Normal));
-			float4 reflect = normalize(2 * diffuse*input.Normal - lightDir);
-			float4 specular = pow(saturate(dot(reflect, view)), SpecularM);
-			c = c + (LightDiffuseColor[i] * LightKDiffuse[i] * diffuse + LightSpecularColor[i] * LightKSpecular[i] * specular)*input.Color*LightPower[i];
+			float3 diffuse = saturate(dot(lightDir, input.Normal));
+			float3 _reflect = normalize(reflect(lightDir, input.Normal));
+			float3 specular = pow(saturate(dot(_reflect, view)), SpecularM);
+			c = c + (LightKDiffuse[i] * diffuse + LightKSpecular[i] * specular)*LightColor[i]*input.Color*LightPower[i];
 	}
-	return saturate(c + AmbientColor * input.Color*Ka);
+	return float4(saturate(c + AmbientColor * input.Color*Ka),1);
 }
 
 //float4 CalculateParticularColor(int lightId, float4 position, float4 normal, float4 baseColor) :COLOR0
@@ -86,7 +87,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 //	return LightPower[lightId] * (diff);
 //}
 
-technique Ambient
+technique Color
 {
 	pass Pass1
 	{

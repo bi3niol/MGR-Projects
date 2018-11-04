@@ -54,13 +54,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1\10475_Rocket_Ship_v1_Diffuse.jpg" />
     <Content Include="Content\Shaders\Simple.fx" />
+    <Content Include="Content\truck texture.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1\10475_Rocket_Ship_v1_L3.mtl" />
+    <None Include="Content\Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1\10475_Rocket_Ship_v1_L3.obj" />
     <None Include="Content\Satellite.obj" />
+    <None Include="Content\Space Truck.blend" />
+    <None Include="Content\truck texture.xcf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

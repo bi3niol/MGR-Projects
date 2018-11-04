@@ -55,17 +55,29 @@ namespace GK3D.App
             effect = new SimpleEffect(graphics, Content.Load<Effect>("Shaders/Simple"));
             effect.AddLight(new GK3D.Components.SceneObjects.Light
             {
-                DiffuseColor = Color.White,
+                Color = Color.White,
                 Type = GK3D.Components.SceneObjects.LightType.Directional,
-                Direction = new Vector4(1,1,0,0),
-                KDiffuse = 0.3f,
-                Power = 0.7f,
-                SpecularColor = Color.Blue,
-                KSpecular = 0.8f
+                Direction = new Vector3(1,1,0),
+                KDiffuse = 0.8f,
+                Power = 1f,
+                KSpecular = 0.5f
             });
-            var satelite = Content.LoadXnaModel("Satellite", effect);
-            satelite.Effect = effect;
-            satelite.Scale = new Vector3(5, 5, 5);
+            var spaceship1 = Content.LoadXnaModel("Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3", effect);
+            var spaceship2 = Content.LoadXnaModel("Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3", effect);
+            var satelite2 = Content.LoadXnaModel("Satellite", effect);
+            var satelite3 = Content.LoadXnaModel("Satellite", effect);
+            spaceship1.Effect = effect;
+            spaceship1.Scale = new Vector3(0.02f);
+            spaceship1.Position = new Vector3(25,20,0);
+            spaceship2.Effect = effect;
+            spaceship2.Scale = new Vector3(0.02f);
+            spaceship2.Position = new Vector3(-25, 20, 0);
+            satelite2.Effect = effect;
+            satelite2.Scale = new Vector3(5, 5, 5);
+            satelite2.Position = new Vector3(-25, 25, 0);
+            satelite3.Effect = effect;
+            satelite3.Scale = new Vector3(5, 5, 5);
+            satelite3.Position = new Vector3(0, 0, 26);
             manager.StateManager.SetState(States.Main, new ProjectSceneState
             {
                 Effect = effect,
@@ -75,7 +87,7 @@ namespace GK3D.App
                 },
                 Models = new System.Collections.Generic.List<IModel>
                 {
-                    new Sphere(graphics, effect, Color.DarkOrange, 20, 15, 15), //planet
+                    new Sphere(graphics, effect, Color.LightGray, 20, 40, 40), //planet
                     new Sphere(graphics, effect, Color.White, 3,10,10)
                     {
                         Position = new Vector3(0,20,0),
@@ -84,7 +96,10 @@ namespace GK3D.App
                         Position = new Vector3(2,20,0),
                         Rotation = new Vector3(0,0,90)
                     },
-                    satelite
+                    spaceship1,
+                    spaceship2,
+                    satelite2,
+                    satelite3
                 },
                 Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500)
             });
