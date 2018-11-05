@@ -194,7 +194,7 @@ namespace GK3D.Components.Shaders
         {
             if (lights.Any(l => l.ID == light.ID))
                 return false;
-
+            lights.Add(light);
             switch (light.Type)
             {
                 case LightType.Directional:
@@ -251,11 +251,11 @@ namespace GK3D.Components.Shaders
             LightTypes = types;
 
             var kd = LightKDiffuses;
-            kd[lightindex]=light.KDiffuse;
+            kd[lightindex] = light.KDiffuse;
             LightKDiffuses = kd;
 
             var ks = LightKSpeculars;
-            ks[lightindex]=light.KSpecular;
+            ks[lightindex] = light.KSpecular;
             LightKSpeculars = ks;
 
             var dcolors = LightColors;

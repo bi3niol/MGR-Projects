@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GK3D.Components.Game;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace GK3D.Components.SceneObjects
         Point = 1,
         Spot = 2
     }
-    public class Light
+    public class Light : GameObject
     {
         private static int _id = 0;
 

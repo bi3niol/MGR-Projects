@@ -1,6 +1,8 @@
 ﻿using GK3D.Components;
+using GK3D.Components.Components;
 using GK3D.Components.Game;
 using GK3D.Components.Models;
+using GK3D.Components.SceneObjects;
 using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,15 +55,16 @@ namespace GK3D.App
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new SimpleEffect(graphics, Content.Load<Effect>("Shaders/Simple"));
-            effect.AddLight(new GK3D.Components.SceneObjects.Light
+            var light = new Light
             {
-                Color = Color.White,
+                Color = new Color(100,50,200,255),
                 Type = GK3D.Components.SceneObjects.LightType.Directional,
-                Direction = new Vector3(1,1,0),
+                Direction = new Vector3(1, 1, 0),
                 KDiffuse = 0.8f,
                 Power = 1f,
                 KSpecular = 0.5f
-            });
+            };
+            effect.AddLight(light);
             var spaceship1 = Content.LoadXnaModel("Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3", effect);
             var spaceship2 = Content.LoadXnaModel("Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3", effect);
             var satelite2 = Content.LoadXnaModel("Satellite", effect);
@@ -78,15 +81,21 @@ namespace GK3D.App
             satelite3.Effect = effect;
             satelite3.Scale = new Vector3(5, 5, 5);
             satelite3.Position = new Vector3(0, 0, 26);
+
+            Camera camera = new Camera()
+            {
+                Position = new Vector3(0, 0, 60),
+            };
+
+            light.AddComponent(new LightAnimatorCommponent(light, effect));
+
             manager.StateManager.SetState(States.Main, new ProjectSceneState
             {
                 Effect = effect,
-                Camera = new Components.SceneObjects.Camera()
+                Camera = camera,
+                GameObjects = new System.Collections.Generic.List<IGameObject>
                 {
-                    Position = new Vector3(0, 0, 60),
-                },
-                Models = new System.Collections.Generic.List<IModel>
-                {
+                    light,
                     new Sphere(graphics, effect, Color.LightGray, 20, 40, 40), //planet
                     new Sphere(graphics, effect, Color.White, 3,10,10)
                     {
@@ -136,7 +145,7 @@ namespace GK3D.App
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             // TODO: Add your drawing code here
             base.Draw(gameTime);
         }
