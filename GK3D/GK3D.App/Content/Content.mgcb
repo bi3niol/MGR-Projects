@@ -69,3 +69,10 @@
 /processorParam:TextureFormat=Compressed
 /build:Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3.obj
 
+#begin FontDesc.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FontDesc.spritefont
+

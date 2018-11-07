@@ -64,7 +64,6 @@ namespace GK3D.Components.SceneObjects
         private void UpdateViewMatrix()
         {
             ViewMatrix = Matrix.CreateLookAt(_position, _lookAt, Up);
-
         }
 
         internal void Rotate(Vector3 rotation)
