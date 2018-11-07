@@ -16,7 +16,7 @@ namespace GK3D.Components.Components
             Camera = camera;
         }
 
-        public float MovementSpeed { get; set; } = 15.0f;
+        public float MovementSpeed { get; set; } = 15.0f*2;
 
         public Camera Camera { get; }
 

@@ -23,6 +23,8 @@ namespace GK3D.Components.Shaders
             public const string LightEnabled = "LightEnabled";
             public const string LightCount = "LightCount";
             public const string SpecularM = "SpecularM";
+            public const string Texture = "Texture";
+            public const string TextureLoaded = "TextureLoaded";
         }
 
         public GraphicsDeviceManager Graphics { get; set; }
@@ -73,6 +75,30 @@ namespace GK3D.Components.Shaders
             }
         }
 
+        public int TextureLoaded
+        {
+            get
+            {
+                return Parameters[ParamNames.TextureLoaded].GetValueInt32();
+            }
+            set
+            {
+                Parameters[ParamNames.TextureLoaded].SetValue(value);
+            }
+        }
+
+        public Texture2D Texture
+        {
+            get
+            {
+                return Parameters[ParamNames.Texture].GetValueTexture2D();
+            }
+            set
+            {
+                Parameters[ParamNames.Texture].SetValue(value);
+            }
+        }
+
         private List<Light> lights = new List<Light>();
         private float[] LightPowers
         {
@@ -119,7 +145,7 @@ namespace GK3D.Components.Shaders
             }
         }
 
-        private Vector3[] LightPosition
+        private Vector3[] LightPositions
         {
             get
             {
@@ -206,7 +232,7 @@ namespace GK3D.Components.Shaders
                 default:
                     break;
             }
-            return true;
+            return AddDirectional(light); ;
         }
 
         public bool RemoveLight(int lightId)
@@ -225,13 +251,9 @@ namespace GK3D.Components.Shaders
 
         private bool AddDirectional(Light light)
         {
-            if (light.Type != LightType.Directional)
-                throw new ArgumentException("Light type must by a Directional");
+            //if (light.Type != LightType.Directional)
+            //    throw new ArgumentException("Light type must by a Directional");
             int lightCount = LightCount;
-
-            var directions = LightDirections;
-            directions[lightCount]=light.Direction.Value;
-            LightDirections = directions;
 
             AddBaseLightProperties(light, lightCount);
 
@@ -242,12 +264,20 @@ namespace GK3D.Components.Shaders
 
         private void AddBaseLightProperties(Light light, int lightindex)
         {
+            var directions = LightDirections;
+            directions[lightindex] = light.Direction;
+            LightDirections = directions;
+
+            var positions = LightPositions;
+            positions[lightindex] = light.Position;
+            LightPositions = positions;
+
             var powers = LightPowers;
-            powers[lightindex]=light.Power;
+            powers[lightindex] = light.Power;
             LightPowers = powers;
 
-            var types =LightTypes;
-            types[lightindex]=(int)light.Type;
+            var types = LightTypes;
+            types[lightindex] = (int)light.Type;
             LightTypes = types;
 
             var kd = LightKDiffuses;
@@ -259,7 +289,7 @@ namespace GK3D.Components.Shaders
             LightKSpeculars = ks;
 
             var dcolors = LightColors;
-            dcolors[lightindex]=light.Color.ToVector3();
+            dcolors[lightindex] = light.Color.ToVector3();
             LightColors = dcolors;
 
         }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GK3D.Components.Shaders;
+﻿using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,10 +6,13 @@ namespace GK3D.Components.Models
 {
     public class XnaModel : BaseModel, IXnaModel
     {
+        public bool TextureEnabled { get; set; } = true;
         private Model model;
         public ModelBoneCollection Bones => model.Bones;
 
         public ModelMeshCollection Meshes => model.Meshes;
+
+        public Texture2D Texture { get; set; }
 
         public ModelBone Root
         {
@@ -47,14 +49,28 @@ namespace GK3D.Components.Models
             Effect.Projection = projection;
             Effect.World = World;
 
-            //foreach (var mesh in model.Meshes)
-            //{
-            //    foreach (var part in mesh.MeshParts)
-            //    {
-            //        part.Effect = Effect;
-            //    }
-            //}
-            model.Draw(World, view, projection);
+            EffectPass pass;
+            if (TextureEnabled)
+            {
+                Effect.Texture = Texture;
+                Effect.TextureLoaded = Texture == null ? 0 : 1;
+                Effect.CurrentTechnique = Effect.Techniques["TechTexture"];
+                pass = Effect.CurrentTechnique.Passes["Texture"];
+            }
+            else
+            {
+                Effect.CurrentTechnique = Effect.Techniques["TechColor"];
+                pass = Effect.CurrentTechnique.Passes["Color"];
+            }
+            pass.Apply();
+            foreach (var mesh in model.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    part.Effect = Effect;
+                }
+                mesh.Draw();
+            }
         }
     }
 }

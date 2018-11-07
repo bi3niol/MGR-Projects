@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GK3D.Components.Models
 {
-    public class CustomModel<TVertex> :BaseModel where TVertex : struct, IVertexType
+    public class CustomModel<TVertex> : BaseModel where TVertex : struct, IVertexType
     {
         protected TVertex[] Vertexes;
         protected SimpleEffect Effect;
@@ -27,12 +27,10 @@ namespace GK3D.Components.Models
             //Effect.VertexColorEnabled = true;
 
             //Effect.EnableDefaultLighting();
-
-            foreach (var pass in Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                Effect.Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertexes, 0, triangleCount);
-            }
+            Effect.CurrentTechnique = Effect.Techniques["TechColor"];
+            var pass = Effect.CurrentTechnique.Passes["Color"];
+            pass.Apply();
+            Effect.Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertexes, 0, triangleCount);
         }
     }
 }
