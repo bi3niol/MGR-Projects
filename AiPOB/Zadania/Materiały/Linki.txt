@@ -1,0 +1,5 @@
+Rozci¹ganie histogramu / normalizacja
+http://www.algorytm.org/przetwarzanie-obrazow/histogram-rozciaganie.html
+
+Wyrównanie histogramu
+https://en.wikipedia.org/wiki/Histogram_equalization

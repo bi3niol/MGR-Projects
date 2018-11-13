@@ -115,7 +115,7 @@ namespace GK3D.App
             dir.Normalize();
             Light lightSat2 = new Light()
             {
-                Color = new Color(100, 50, 200, 255),
+                Color = new Color(0, 0, 0, 255),
                 Type = GK3D.Components.SceneObjects.LightType.Spot,
                 Position = satelite2.Position,
                 Direction = dir,
