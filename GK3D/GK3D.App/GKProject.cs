@@ -23,7 +23,6 @@ namespace GK3D.App
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameManager manager;
-
         SimpleEffect effect;
         SpriteFont basicFont;
         public GKProject()
@@ -55,7 +54,11 @@ namespace GK3D.App
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             basicFont = Content.Load<SpriteFont>("FontDesc");
-
+            // GUI
+            GuiMenu menu = new GuiMenu(spriteBatch,basicFont, this);
+            menu.DrawOrder = 100;
+            Components.Add(menu);
+            //
             effect = new SimpleEffect(graphics, Content.Load<Effect>("Shaders/Simple"));
             var light = new Light
             {
@@ -210,11 +213,11 @@ namespace GK3D.App
             GraphicsDevice.Clear(Color.Black);
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin(SpriteSortMode.FrontToBack,null, null, DepthStencilState.Default);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend, null, DepthStencilState.Default);
             spriteBatch.DrawString(basicFont, "MOVEMENT : W A S D Q E", new Vector2(30, 30), Color.Yellow);
             spriteBatch.DrawString(basicFont, "ROTATIONS : U H J K Y I", new Vector2(30, 50), Color.Yellow);
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }

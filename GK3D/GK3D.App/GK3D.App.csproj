@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GKProject.cs" />
+    <Compile Include="GuiMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectSceneState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\inne\Straflos avek1.png" />
+    <Content Include="Content\menu\TAK11.png" />
+    <Content Include="Content\menu\TAK12.png" />
+    <Content Include="Content\menu\TAK13.png" />
+    <Content Include="Content\menu\TAK14.png" />
+    <Content Include="Content\menu\TAK15.png" />
+    <Content Include="Content\menu\TAK17.png" />
     <Content Include="Content\Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1\10475_Rocket_Ship_v1_Diffuse.jpg" />
     <Content Include="Content\Shaders\Simple.fx" />
     <Content Include="Content\truck texture.png" />
@@ -73,10 +81,15 @@
       <Project>{6E401A58-F1A3-46D0-A16A-58FC9183AF46}</Project>
       <Name>GK3D.Components</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GK3D.GUI\GK3D.GUI.csproj">
+      <Project>{60C6831B-0B42-4C33-A0EB-2927BC96673B}</Project>
+      <Name>GK3D.GUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
