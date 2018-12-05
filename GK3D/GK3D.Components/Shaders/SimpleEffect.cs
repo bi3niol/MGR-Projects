@@ -23,11 +23,39 @@ namespace GK3D.Components.Shaders
             public const string LightEnabled = "LightEnabled";
             public const string LightCount = "LightCount";
             public const string SpecularM = "SpecularM";
-            public const string Texture = "Texture";
+            public const string Texture = "_Texture";
+            public const string SkyboxTexture = "SkyboxTexture";
             public const string TextureLoaded = "TextureLoaded";
+            public const string MipMapLevelOfDetailBias = "MipMapLevelOfDetailBias";
+            public const string LightsEnabled = "LightsEnabled"; 
+            public const string TextureMatrix = "TextureMatrix"; 
         }
 
         public GraphicsDeviceManager Graphics { get; set; }
+
+        public bool LightsEnabled
+        {
+            get
+            {
+                return Parameters[ParamNames.LightsEnabled].GetValueInt32()==1;
+            }
+            set
+            {
+                Parameters[ParamNames.LightsEnabled].SetValue(value ? 1 : 0);
+            }
+        }
+
+        public Matrix TextureMatrix
+        {
+            get
+            {
+                return Parameters[ParamNames.TextureMatrix].GetValueMatrix();
+            }
+            set
+            {
+                Parameters[ParamNames.TextureMatrix].SetValue(value);
+            }
+        }
 
         public Matrix View
         {
@@ -86,12 +114,34 @@ namespace GK3D.Components.Shaders
                 Parameters[ParamNames.TextureLoaded].SetValue(value);
             }
         }
+        public float MipMapLevelOfDetailBias
+        {
+            get
+            {
+                return Parameters[ParamNames.MipMapLevelOfDetailBias].GetValueSingle();
+            }
+            set
+            {
+                Parameters[ParamNames.MipMapLevelOfDetailBias].SetValue(value);
+            }
+        }
 
-        public Texture2D Texture
+        public Texture Texture
         {
             get
             {
                 return Parameters[ParamNames.Texture].GetValueTexture2D();
+            }
+            set
+            {
+                Parameters[ParamNames.Texture].SetValue(value);
+            }
+        }
+        public TextureCube SkyboxTexture
+        {
+            get
+            {
+                return Parameters[ParamNames.Texture].GetValueTextureCube();
             }
             set
             {

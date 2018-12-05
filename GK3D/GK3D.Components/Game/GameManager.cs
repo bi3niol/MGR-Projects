@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GK3D.GUI;
+using Microsoft.Xna.Framework;
 
 
 namespace GK3D.Components.Game
@@ -19,8 +20,11 @@ namespace GK3D.Components.Game
         }
         public override void Update(GameTime gameTime)
         {
-            StateManager?.Update(gameTime);
-            base.Update(gameTime);
+            using (InputHandler.HandlerUpdate)
+            {
+                StateManager?.Update(gameTime);
+                base.Update(gameTime);
+            }
         }
     }
 }

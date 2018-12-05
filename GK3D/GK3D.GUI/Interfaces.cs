@@ -16,6 +16,7 @@ namespace GK3D.GUI
         int LayerDepth { get; set; }
         void Draw(SpriteBatch spriteBatch, Rectangle rectangle);
         void Draw(SpriteBatch spriteBatch);
+        bool IsVisible { get; set; }
     }
     public interface IAnimatedGuiElement : IGuiElement, IUpdateable { }
     public interface IClicableElement

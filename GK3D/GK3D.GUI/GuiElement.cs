@@ -18,7 +18,7 @@ namespace GK3D.GUI
         public IGuiElement Parent { get; set; }
         public List<IGuiElement> ChildElements { get; set; } = new List<IGuiElement>();
         public int LayerDepth { get; set; }
-
+        public bool IsVisible { get; set; } = true;
         private Rectangle _rectangle;
         public Rectangle Rectangle
         {
@@ -51,13 +51,16 @@ namespace GK3D.GUI
             Rectangle = rectangle;
             Background = background;
         }
-       
+
         protected virtual void OnRectangleChanged()
         { }
 
-        public bool Click(Point mousePosition)
+        public virtual bool Click(Point mousePosition)
         {
-            if (ChildElements.Any(e => e.Click(mousePosition)))
+            if (!IsVisible)
+                return false;
+            var copyElements = ChildElements.ToArray();
+            if (copyElements.Any(e => e.Click(mousePosition)))
                 return true;
 
             if (Rectangle.Contains(mousePosition))
@@ -83,8 +86,11 @@ namespace GK3D.GUI
         }
         public virtual void Draw(SpriteBatch spriteBatch, Rectangle rectangle)
         {
+            if (!IsVisible)
+                return;
             if (Background != null)
                 spriteBatch.Draw(Background, rectangle, MaskColor);
+
             ChildElements?.ForEach((e) =>
             {
                 e.Draw(spriteBatch);
@@ -98,7 +104,9 @@ namespace GK3D.GUI
 
         public virtual void MouseMove(Point mousePosition)
         {
-            Debug.Print(mousePosition.ToString());
+            if (!IsVisible)
+                return;
+
             ChildElements?.ForEach((e) =>
             {
                 e.MouseMove(mousePosition);

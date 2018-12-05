@@ -5,8 +5,10 @@ namespace GK3D.Components.Models
 {
     public class Cube : CustomModel<VertexPositionColorNormal>
     {
+        public float a { get; set; }
         public Cube(GraphicsDeviceManager graphics, SimpleEffect effect, float size, Color color) : base(effect)
         {
+            a = size;
             Vertexes = new VertexPositionColorNormal[36];
             var Size = new Vector3(size);
            

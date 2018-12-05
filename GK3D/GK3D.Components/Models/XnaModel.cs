@@ -1,6 +1,8 @@
 ﻿using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace GK3D.Components.Models
 {
@@ -12,8 +14,27 @@ namespace GK3D.Components.Models
 
         public ModelMeshCollection Meshes => model.Meshes;
 
-        public Texture2D Texture { get; set; }
+        public List<Texture> Textures { get; set; } = new List<Texture>();
 
+        public Texture Texture
+        {
+            get
+            {
+                if (Textures.Count > 0)
+                    return Textures[0];
+                return null;
+            }
+            set
+            {
+                if (Textures.Count == 0)
+                    Textures.Add(value);
+
+                if (Textures.Contains(value))
+                    Textures.Remove(value);
+
+                Textures.Insert(0, value);
+            }
+        }
         public ModelBone Root
         {
             get => model.Root;
@@ -48,28 +69,23 @@ namespace GK3D.Components.Models
             Effect.View = view;
             Effect.Projection = projection;
             Effect.World = World;
-
-            EffectPass pass;
-            if (TextureEnabled)
+            Effect.CurrentTechnique = Effect.Techniques["TechTexture"];
+            foreach (var texture in Textures)
             {
-                Effect.Texture = Texture;
-                Effect.TextureLoaded = Texture == null ? 0 : 1;
-                Effect.CurrentTechnique = Effect.Techniques["TechTexture"];
+                EffectPass pass;
+                Effect.Texture = texture;
+                Effect.TextureLoaded = texture == null ? 0 : 1;
                 pass = Effect.CurrentTechnique.Passes["Texture"];
-            }
-            else
-            {
-                Effect.CurrentTechnique = Effect.Techniques["TechColor"];
-                pass = Effect.CurrentTechnique.Passes["Color"];
-            }
-            pass.Apply();
-            foreach (var mesh in model.Meshes)
-            {
-                foreach (var part in mesh.MeshParts)
+
+                pass.Apply();
+                foreach (var mesh in model.Meshes)
                 {
-                    part.Effect = Effect;
+                    foreach (var part in mesh.MeshParts)
+                    {
+                        part.Effect = Effect;
+                    }
+                    mesh.Draw();
                 }
-                mesh.Draw();
             }
         }
     }

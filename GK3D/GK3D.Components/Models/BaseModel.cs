@@ -15,7 +15,7 @@ namespace GK3D.Components.Models
             {
                 if (_rotation == value) return;
                 _rotation = value;
-                UpdateWorldMatrix();
+                OnPropertychanged();
             }
         }
 
@@ -27,7 +27,7 @@ namespace GK3D.Components.Models
             {
                 if (_position == value) return;
                 _position = value;
-                UpdateWorldMatrix();
+                OnPropertychanged();
             }
         } 
 
@@ -39,7 +39,7 @@ namespace GK3D.Components.Models
             {
                 if (_scale == value) return;
                 _scale = value;
-                UpdateWorldMatrix();
+                OnPropertychanged();
             }
         }
 
@@ -50,6 +50,10 @@ namespace GK3D.Components.Models
             private set => _world = value;
         }
 
+        protected virtual void OnPropertychanged()
+        {
+            UpdateWorldMatrix();
+        }
         private void UpdateWorldMatrix()
         {
             World = Matrix.CreateScale(Scale) *
@@ -66,7 +70,7 @@ namespace GK3D.Components.Models
 
         public void Initialize()
         {
-            UpdateWorldMatrix();
+            OnPropertychanged();
         }
 
         public abstract void Draw(Matrix view, Matrix projection);

@@ -24,9 +24,7 @@ namespace GK3D.Components.Models
             Effect.View = view;
             Effect.World = World;
             Effect.Projection = projection;
-            //Effect.VertexColorEnabled = true;
 
-            //Effect.EnableDefaultLighting();
             Effect.CurrentTechnique = Effect.Techniques["TechColor"];
             var pass = Effect.CurrentTechnique.Passes["Color"];
             pass.Apply();

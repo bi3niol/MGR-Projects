@@ -7,10 +7,13 @@
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
+float4x4 TextureMatrix;
+
 float3 CameraPosition = float3(0, 0, 60);
 
 //float Ka = 0.3;
-float4 AmbientColor = float4(1, 1, 1, 1)*0.3;
+float4 AmbientColor = float4(1, 1, 1, 1);
+float Ka = 0.3;
 /* Lights */
 #define MAXLIGHT 3
 float LightPower[MAXLIGHT];
@@ -29,10 +32,19 @@ float MaxCosValueForReflector = 0.7f;
 int LightCount = 0;
 float SpecularM = 12;
 
+float MipMapLevelOfDetailBias = 0;
+
+int LightsEnabled = 1;
+
 int TextureLoaded = 0;
-texture Texture;
+texture _Texture;
+texture SkyboxTexture;
 sampler TextureSampler = sampler_state {
-	texture = (Texture);
+	texture = (_Texture);
+};
+samplerCUBE SkyBoxSampler = sampler_state
+{
+	texture = (_Texture);
 };
 
 struct VertexShaderInput_Texture
@@ -41,6 +53,7 @@ struct VertexShaderInput_Texture
 	float3 Normal : NORMAL0;
 	float2 UV : TEXCOORD0;
 };
+
 struct VertexShaderOutput_Texture
 {
 	float4 Position : SV_Position;
@@ -49,7 +62,17 @@ struct VertexShaderOutput_Texture
 	float4 WorldPosition : TEXCOORD2;
 };
 
+struct VertexShaderInput_Skybox
+{
+	float4 Position : POSITION0;
+	float3 Normal : NORMAL;
+};
 
+struct VertexShaderOutput_Skybox
+{
+	float4 Position : POSITION0;
+	float3 TextureCoordinate : TEXCOORD0;
+};
 
 struct VertexShaderInput
 {
@@ -65,6 +88,41 @@ struct VertexShaderOutput
 	float3 Normal : NORMAL;
 	float4 WorldPosition : POSITION1;
 };
+
+VertexShaderOutput_Texture VertexShaderFunction_TextureMatrix(VertexShaderInput input)
+{
+	VertexShaderOutput_Texture output;
+
+	float4 worldPosition = mul(input.Position, World);
+	float4 viewPosition = mul(worldPosition, View);
+	output.Position = mul(viewPosition, Projection);
+
+	float4 normal = normalize(mul(input.Normal, World));
+	output.Normal = normal;
+	output.UV = mul(input.Position, TextureMatrix).xy;
+	output.WorldPosition = worldPosition;
+	return output;
+}
+
+VertexShaderOutput_Skybox VertexShaderFunction_Skybox(VertexShaderInput_Skybox input)
+{
+	VertexShaderOutput_Skybox output;
+
+	float4 worldPosition = mul(input.Position, World);
+	float4 viewPosition = mul(worldPosition, View);
+	output.Position = mul(viewPosition, Projection);
+	float4 normal = normalize(mul(input.Normal, World));
+	float4 VertexPosition = mul(input.Position, World);
+	output.TextureCoordinate = VertexPosition - CameraPosition;
+
+	return output;
+}
+
+float4 PixelShaderFunction_Skybox(VertexShaderOutput_Skybox input) : COLOR0
+{
+	//return AmbientColor;
+	return texCUBE(SkyBoxSampler, normalize(input.TextureCoordinate));
+}
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
@@ -107,9 +165,9 @@ float3 CalculateParticularColor(int lightId, float3 normal, float3 view, float4 
 	}
 
 	diffuse = saturate(dot(toLightDir, normal));
-	
+
 	if (lightType == 2) {//Reflector
-		
+
 		cosVal = saturate(dot(-toLightDir, lightDir));
 		rr = 0;
 		if (MaxCosValueForReflector < cosVal) {
@@ -119,16 +177,19 @@ float3 CalculateParticularColor(int lightId, float3 normal, float3 view, float4 
 	_reflect = normalize(reflect(toLightDir, normal));
 	specular = pow(saturate(dot(_reflect, view)), SpecularM);
 
-	return rr*(LightKDiffuse[lightId] * diffuse + LightKSpecular[lightId] * specular)*LightColor[lightId];
+	return rr * (LightKDiffuse[lightId] * diffuse + LightKSpecular[lightId] * specular)*LightColor[lightId];
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	float3 c = AmbientColor;
 	float3 view = normalize(input.WorldPosition - CameraPosition);
-	for (int i = 0; i < LightCount; i++)
-	{
-		c = c + CalculateParticularColor(i, input.Normal, view, input.WorldPosition);
+	if (LightsEnabled == 1) {
+		c = c * Ka;
+		for (int i = 0; i < LightCount; i++)
+		{
+			c = c + CalculateParticularColor(i, input.Normal, view, input.WorldPosition);
+		}
 	}
 	return float4(saturate(c*input.Color),1);
 }
@@ -136,16 +197,19 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 float4 PixelShaderFunction_Texture(VertexShaderOutput_Texture input) : COLOR0
 {
 	float3 c = AmbientColor;
-	float3 color  = tex2D(TextureSampler, input.UV).rgb;
+	float4 color = tex2D(TextureSampler, input.UV);
 	if (TextureLoaded == 0) {
-		color = float3(1, 1, 1);
+		color = float4(1, 1, 1,0);
 	}
 	float3 view = normalize(input.WorldPosition - CameraPosition);
-	for (int i = 0; i < LightCount; i++)
-	{
-		c = c + CalculateParticularColor(i, input.Normal, view, input.WorldPosition);
+	if (LightsEnabled == 1) {
+		c = c * Ka;
+		for (int i = 0; i < LightCount; i++)
+		{
+			c = c + CalculateParticularColor(i, input.Normal, view, input.WorldPosition);
+		}
 	}
-	return float4(saturate(c*color),1);
+	return float4(saturate(c*color),color.a);
 }
 
 
@@ -163,5 +227,21 @@ technique TechTexture
 	{
 		VertexShader = compile vs_4_0_level_9_3 VertexShaderFunction_Texture();
 		PixelShader = compile ps_4_0_level_9_3 PixelShaderFunction_Texture();
+	}
+}
+technique TechTextureMatrix
+{
+	pass TextureMatrix
+	{
+		VertexShader = compile vs_4_0_level_9_3 VertexShaderFunction_TextureMatrix();
+		PixelShader = compile ps_4_0_level_9_3 PixelShaderFunction_Texture();
+	}
+}
+technique Skybox
+{
+	pass Pass1
+	{
+		VertexShader = compile vs_4_0_level_9_3 VertexShaderFunction_Skybox();
+		PixelShader = compile ps_4_0_level_9_3 PixelShaderFunction_Skybox();
 	}
 }
