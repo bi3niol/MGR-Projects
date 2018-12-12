@@ -19,7 +19,6 @@ namespace GK3D.Components.ParticlesSystems
 
         private int ParticlesPerSecond = 40;
         public TimeSpan ParticleLiveTime { get; set; } = new TimeSpan(0, 0, 6);
-        private int MaxCountOfBilboardToRemove;
 
         private SimpleEffect effect;
         private Texture texture;
@@ -32,7 +31,6 @@ namespace GK3D.Components.ParticlesSystems
             ParticlesPerSecond = particlesPerSecond;
             this.effect = effect;
             this.texture = texture;
-            MaxCountOfBilboardToRemove = 3 * ParticlesPerSecond;
             Camera = camera;
         }
 

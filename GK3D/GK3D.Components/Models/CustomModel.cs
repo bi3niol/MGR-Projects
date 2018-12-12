@@ -21,6 +21,7 @@ namespace GK3D.Components.Models
             return effect.CurrentTechnique.Passes["Color"];
         }
 
+        protected virtual void SetEffectPrevValues(SimpleEffect effect) { }
         public override void Draw(Matrix view, Matrix projection)
         {
             if (Effect == null) return;
@@ -34,6 +35,7 @@ namespace GK3D.Components.Models
             var pass = SetEffectVariableGetPass(Effect);
             pass.Apply();
             Effect.Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertices, 0, triangleCount);
+            SetEffectPrevValues(Effect);
         }
     }
 }

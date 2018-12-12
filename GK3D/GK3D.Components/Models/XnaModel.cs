@@ -27,12 +27,15 @@ namespace GK3D.Components.Models
             set
             {
                 if (Textures.Count == 0)
-                    Textures.Add(value);
+                { Textures.Add(value); return; }
 
                 if (Textures.Contains(value))
+                {
                     Textures.Remove(value);
-
-                Textures.Insert(0, value);
+                    Textures.Insert(0, value);
+                    return;
+                }
+                Textures[0] = value;
             }
         }
         public ModelBone Root

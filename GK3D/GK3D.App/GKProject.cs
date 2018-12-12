@@ -150,12 +150,12 @@ namespace GK3D.App
             spaceship2.Texture = shipTexture;
 
             var sph1 = Content.LoadXnaModel("mars/Mars 2K", effect);
+            sph1.Textures.Add(Content.Load<Texture2D>("inne/BaseTexture"));
             sph1.Textures.Add(Content.Load<Texture2D>("inne/mesh"));
             sph1.Textures.Add(Content.Load<Texture2D>("inne/Alfa-Romeo-logo-1982-1920x1080"));
-            sph1.Texture = (Content.Load<Texture2D>("inne/BaseTexture"));
-            sph1.AddComponent(new SwapBaseTextureComponent(sph1, Content.Load<Texture2D>("inne/BaseTexture"),
+            sph1.AddComponent(new SwapBaseTextureComponent(sph1,
                 Content.Load<Texture2D>("inne/BaseTexture2"),
-                Content.Load<Texture2D>("inne/BaseTexture3")));
+                Content.Load<Texture2D>("inne/BaseTexture3"), Content.Load<Texture2D>("inne/BaseTexture")));
 
             var sph2 = Content.LoadXnaModel("mars/Mars 2K", effect);
             sph2.Texture = Content.Load<Texture2D>("inne/BaseTexture");
@@ -347,18 +347,21 @@ namespace GK3D.App
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.SetRenderTarget(renderTarget);
             manager.Draw(gameTime, monitorCamera);
             GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, sampler, DepthStencilState.Default);
-            spriteBatch.DrawString(basicFont, "MOVEMENT : W A S D Q E", new Vector2(30, 30), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "ROTATIONS : U H J K Y I", new Vector2(30, 50), Color.Yellow);
-            spriteBatch.End();
-
             base.Draw(gameTime);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, sampler, DepthStencilState.Default);
+            spriteBatch.DrawString(basicFont, "Poruszanie : W A S D Q E", new Vector2(30, 30), Color.Yellow);
+            spriteBatch.DrawString(basicFont, "Poruszanie Obroty : U H J K Y I", new Vector2(30, 50), Color.Yellow);
+            spriteBatch.DrawString(basicFont, "Poruszanie tekstura telebimu : strzalki", new Vector2(30, 70), Color.Yellow);
+            spriteBatch.DrawString(basicFont, "Skalowanie textury na telebimnie : + -", new Vector2(30, 90), Color.Yellow);
+            spriteBatch.DrawString(basicFont, "Zmiana textury na bazie : N", new Vector2(30, 110), Color.Yellow);
+            spriteBatch.DrawString(basicFont, "Pokaz/Ukryj menu : spacja", new Vector2(30, 10), Color.Yellow);
+            spriteBatch.End();
         }
     }
 }

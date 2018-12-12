@@ -31,8 +31,8 @@ namespace GK3D.Components.Components
             if (_textures.Count > 0)
                 if (InputHandler.CheckKeyClick(Keys.N))
                 {
-                    textureId = (textureId + 1) % _textures.Count;
                     xnaModel.Texture = _textures[textureId];
+                    textureId = (textureId + 1) % _textures.Count;
                 }
         }
     }

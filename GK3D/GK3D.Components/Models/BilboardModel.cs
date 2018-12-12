@@ -11,6 +11,8 @@ namespace GK3D.Components.Models
 {
     public class BilboardModel : CustomModel<BilboardVertex>
     {
+        private bool wasLightEnabled;
+
         public Texture Texture { get; set; }
 
         protected override void OnPropertychanged(string propName)
@@ -42,7 +44,14 @@ namespace GK3D.Components.Models
             effect.Texture = Texture;
             effect.TextureLoaded = Texture == null ? 0 : 1;
             effect.CurrentTechnique = effect.Techniques["Bilboard"];
+            //wasLightEnabled = effect.LightsEnabled;
+            //effect.LightsEnabled = false;
             return effect.CurrentTechnique.Passes["Pass1"];
+        }
+        protected override void SetEffectPrevValues(SimpleEffect effect)
+        {
+            base.SetEffectPrevValues(effect);
+            //effect.LightsEnabled = wasLightEnabled;
         }
     }
 }
