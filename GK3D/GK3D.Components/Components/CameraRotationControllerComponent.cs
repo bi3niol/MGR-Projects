@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GK3D.Components.Components
 {
-    public class CameraRotationControllerComponent : IComponet
+    public class CameraRotationControllerComponent : IUpdateableComponent
     {
         public Camera Camera { get; }
         public float RotationtSpeed { get; set; } = 0.5f*2;

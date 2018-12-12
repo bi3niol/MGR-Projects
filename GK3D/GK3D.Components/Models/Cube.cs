@@ -9,7 +9,7 @@ namespace GK3D.Components.Models
         public Cube(GraphicsDeviceManager graphics, SimpleEffect effect, float size, Color color) : base(effect)
         {
             a = size;
-            Vertexes = new VertexPositionColorNormal[36];
+            Vertices = new VertexPositionColorNormal[36];
             var Size = new Vector3(size);
            
             Vector3 topLeftFront = new Vector3(-1.0f, 1.0f, -1.0f) * Size;
@@ -38,52 +38,52 @@ namespace GK3D.Components.Models
             Vector2 textureBottomRight = new Vector2(0.0f * Size.X, 1.0f * Size.Y);
 
             // Add the vertices for the FRONT face.
-            Vertexes[0] = new VertexPositionColorNormal(topLeftFront, color, normalFront);
-            Vertexes[1] = new VertexPositionColorNormal(btmLeftFront, color, normalFront);
-            Vertexes[2] = new VertexPositionColorNormal(topRightFront, color, normalFront);
-            Vertexes[3] = new VertexPositionColorNormal(btmLeftFront, color, normalFront);
-            Vertexes[4] = new VertexPositionColorNormal(btmRightFront, color, normalFront);
-            Vertexes[5] = new VertexPositionColorNormal(topRightFront, color, normalFront);
+            Vertices[0] = new VertexPositionColorNormal(topLeftFront, color, normalFront);
+            Vertices[1] = new VertexPositionColorNormal(btmLeftFront, color, normalFront);
+            Vertices[2] = new VertexPositionColorNormal(topRightFront, color, normalFront);
+            Vertices[3] = new VertexPositionColorNormal(btmLeftFront, color, normalFront);
+            Vertices[4] = new VertexPositionColorNormal(btmRightFront, color, normalFront);
+            Vertices[5] = new VertexPositionColorNormal(topRightFront, color, normalFront);
 
             // Add the vertices for the BACK face.
-            Vertexes[6] = new VertexPositionColorNormal(topLeftBack, color, normalBack);
-            Vertexes[7] = new VertexPositionColorNormal(topRightBack, color, normalBack);
-            Vertexes[8] = new VertexPositionColorNormal(btmLeftBack, color, normalBack);
-            Vertexes[9] = new VertexPositionColorNormal(btmLeftBack, color, normalBack);
-            Vertexes[10] = new VertexPositionColorNormal(topRightBack, color, normalBack);
-            Vertexes[11] = new VertexPositionColorNormal(btmRightBack, color, normalBack);
+            Vertices[6] = new VertexPositionColorNormal(topLeftBack, color, normalBack);
+            Vertices[7] = new VertexPositionColorNormal(topRightBack, color, normalBack);
+            Vertices[8] = new VertexPositionColorNormal(btmLeftBack, color, normalBack);
+            Vertices[9] = new VertexPositionColorNormal(btmLeftBack, color, normalBack);
+            Vertices[10] = new VertexPositionColorNormal(topRightBack, color, normalBack);
+            Vertices[11] = new VertexPositionColorNormal(btmRightBack, color, normalBack);
 
             // Add the vertices for the TOP face.
-            Vertexes[12] = new VertexPositionColorNormal(topLeftFront, color, normalTop);
-            Vertexes[13] = new VertexPositionColorNormal(topRightBack, color, normalTop);
-            Vertexes[14] = new VertexPositionColorNormal(topLeftBack, color, normalTop);
-            Vertexes[15] = new VertexPositionColorNormal(topLeftFront, color, normalTop);
-            Vertexes[16] = new VertexPositionColorNormal(topRightFront, color, normalTop);
-            Vertexes[17] = new VertexPositionColorNormal(topRightBack, color, normalTop);
+            Vertices[12] = new VertexPositionColorNormal(topLeftFront, color, normalTop);
+            Vertices[13] = new VertexPositionColorNormal(topRightBack, color, normalTop);
+            Vertices[14] = new VertexPositionColorNormal(topLeftBack, color, normalTop);
+            Vertices[15] = new VertexPositionColorNormal(topLeftFront, color, normalTop);
+            Vertices[16] = new VertexPositionColorNormal(topRightFront, color, normalTop);
+            Vertices[17] = new VertexPositionColorNormal(topRightBack, color, normalTop);
 
             // Add the vertices for the BOTTOM face. 
-            Vertexes[18] = new VertexPositionColorNormal(btmLeftFront, color, normalTop);
-            Vertexes[19] = new VertexPositionColorNormal(btmLeftBack, color, normalTop);
-            Vertexes[20] = new VertexPositionColorNormal(btmRightBack, color, normalTop);
-            Vertexes[21] = new VertexPositionColorNormal(btmLeftFront, color, normalTop);
-            Vertexes[22] = new VertexPositionColorNormal(btmRightBack, color, normalTop);
-            Vertexes[23] = new VertexPositionColorNormal(btmRightFront, color, normalBottom);
+            Vertices[18] = new VertexPositionColorNormal(btmLeftFront, color, normalTop);
+            Vertices[19] = new VertexPositionColorNormal(btmLeftBack, color, normalTop);
+            Vertices[20] = new VertexPositionColorNormal(btmRightBack, color, normalTop);
+            Vertices[21] = new VertexPositionColorNormal(btmLeftFront, color, normalTop);
+            Vertices[22] = new VertexPositionColorNormal(btmRightBack, color, normalTop);
+            Vertices[23] = new VertexPositionColorNormal(btmRightFront, color, normalBottom);
 
             // Add the vertices for the LEFT face.
-            Vertexes[24] = new VertexPositionColorNormal(topLeftFront, color, normalLeft);
-            Vertexes[25] = new VertexPositionColorNormal(btmLeftBack, color, normalLeft);
-            Vertexes[26] = new VertexPositionColorNormal(btmLeftFront, color, normalLeft);
-            Vertexes[27] = new VertexPositionColorNormal(topLeftBack, color, normalLeft);
-            Vertexes[28] = new VertexPositionColorNormal(btmLeftBack, color, normalLeft);
-            Vertexes[29] = new VertexPositionColorNormal(topLeftFront, color, normalLeft);
+            Vertices[24] = new VertexPositionColorNormal(topLeftFront, color, normalLeft);
+            Vertices[25] = new VertexPositionColorNormal(btmLeftBack, color, normalLeft);
+            Vertices[26] = new VertexPositionColorNormal(btmLeftFront, color, normalLeft);
+            Vertices[27] = new VertexPositionColorNormal(topLeftBack, color, normalLeft);
+            Vertices[28] = new VertexPositionColorNormal(btmLeftBack, color, normalLeft);
+            Vertices[29] = new VertexPositionColorNormal(topLeftFront, color, normalLeft);
 
             // Add the vertices for the RIGHT face. 
-            Vertexes[30] = new VertexPositionColorNormal(topRightFront, color, normalRight);
-            Vertexes[31] = new VertexPositionColorNormal(btmRightFront, color, normalRight);
-            Vertexes[32] = new VertexPositionColorNormal(btmRightBack, color, normalRight);
-            Vertexes[33] = new VertexPositionColorNormal(topRightBack, color, normalRight);
-            Vertexes[34] = new VertexPositionColorNormal(topRightFront, color, normalRight);
-            Vertexes[35] = new VertexPositionColorNormal(btmRightBack, color, normalRight);
+            Vertices[30] = new VertexPositionColorNormal(topRightFront, color, normalRight);
+            Vertices[31] = new VertexPositionColorNormal(btmRightFront, color, normalRight);
+            Vertices[32] = new VertexPositionColorNormal(btmRightBack, color, normalRight);
+            Vertices[33] = new VertexPositionColorNormal(topRightBack, color, normalRight);
+            Vertices[34] = new VertexPositionColorNormal(topRightFront, color, normalRight);
+            Vertices[35] = new VertexPositionColorNormal(btmRightBack, color, normalRight);
 
             //// Add the vertices for the FRONT face.
             //Vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normalFront, textureTopLeft);

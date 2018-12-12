@@ -12,21 +12,27 @@ namespace GK3D.App
     {
         public Camera Camera { get; set; }
         public Matrix Projection { get; set; }
-        public List<IGameObject> GameObjects { get; set; } = new List<IGameObject>();
+        public List<IComponet> Components { get; set; } = new List<IComponet>();
         public IStateManager ParentManager { get; set; }
         public SimpleEffect Effect { get; set; }
 
         public void Draw(GameTime gameTime)
         {
-            Effect.CameraPosition = Camera.Position;
-            foreach (var model in GameObjects.OfType<IModel>())
-                model.Draw(Camera.ViewMatrix, Projection);
+            Draw(gameTime, Camera);
+        }
+
+        public void Draw(GameTime gameTime, Camera camera)
+        {
+            Effect.CameraPosition = camera.Position;
+            Effect.CameraUp = camera.Up;
+            foreach (var model in Components.OfType<IRenderableComponent>())
+                model.Draw(camera.ViewMatrix, Projection);
         }
 
         public void Update(GameTime gameTime)
         {
             Camera.Update(gameTime);
-            foreach (var model in GameObjects)
+            foreach (var model in Components.OfType<IUpdateableComponent>())
                 model.Update(gameTime);
         }
     }

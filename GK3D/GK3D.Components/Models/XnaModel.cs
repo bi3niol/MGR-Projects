@@ -9,7 +9,7 @@ namespace GK3D.Components.Models
     public class XnaModel : BaseModel, IXnaModel
     {
         public bool TextureEnabled { get; set; } = true;
-        private Model model;
+        protected Model model;
         public ModelBoneCollection Bones => model.Bones;
 
         public ModelMeshCollection Meshes => model.Meshes;
@@ -70,14 +70,15 @@ namespace GK3D.Components.Models
             Effect.Projection = projection;
             Effect.World = World;
             Effect.CurrentTechnique = Effect.Techniques["TechTexture"];
-            foreach (var texture in Textures)
+            EffectPass pass;
+            pass = Effect.CurrentTechnique.Passes["Texture"];
+            pass.Apply();
+
+            foreach (var texture in Textures.Count == 0 ? new List<Texture> { null } : Textures)
             {
-                EffectPass pass;
                 Effect.Texture = texture;
                 Effect.TextureLoaded = texture == null ? 0 : 1;
-                pass = Effect.CurrentTechnique.Passes["Texture"];
 
-                pass.Apply();
                 foreach (var mesh in model.Meshes)
                 {
                     foreach (var part in mesh.MeshParts)

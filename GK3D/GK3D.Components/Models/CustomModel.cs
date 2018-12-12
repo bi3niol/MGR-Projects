@@ -6,7 +6,7 @@ namespace GK3D.Components.Models
 {
     public class CustomModel<TVertex> : BaseModel where TVertex : struct, IVertexType
     {
-        protected TVertex[] Vertexes;
+        protected TVertex[] Vertices;
         protected SimpleEffect Effect;
 
         public CustomModel(SimpleEffect effect)
@@ -15,20 +15,25 @@ namespace GK3D.Components.Models
             Initialize();
         }
 
+        protected virtual EffectPass SetEffectVariableGetPass(SimpleEffect effect)
+        {
+            effect.CurrentTechnique = Effect.Techniques["TechColor"];
+            return effect.CurrentTechnique.Passes["Color"];
+        }
+
         public override void Draw(Matrix view, Matrix projection)
         {
             if (Effect == null) return;
 
-            int triangleCount = Vertexes.Length / 3;
+            int triangleCount = Vertices.Length / 3;
 
             Effect.View = view;
             Effect.World = World;
             Effect.Projection = projection;
 
-            Effect.CurrentTechnique = Effect.Techniques["TechColor"];
-            var pass = Effect.CurrentTechnique.Passes["Color"];
+            var pass = SetEffectVariableGetPass(Effect);
             pass.Apply();
-            Effect.Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertexes, 0, triangleCount);
+            Effect.Graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertices, 0, triangleCount);
         }
     }
 }

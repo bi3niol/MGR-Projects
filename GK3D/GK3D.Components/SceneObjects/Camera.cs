@@ -38,9 +38,9 @@ namespace GK3D.Components.SceneObjects
             }
         }
 
-        private Vector3 Up => CoordinateMatrix.Up;
-        private Vector3 Forward => CoordinateMatrix.Forward;
-        private Vector3 Right => CoordinateMatrix.Right;
+        public Vector3 Up => CoordinateMatrix.Up;
+        public Vector3 Forward => CoordinateMatrix.Forward;
+        public Vector3 Right => CoordinateMatrix.Right;
 
 
         private Vector3 _lookAt
@@ -55,10 +55,13 @@ namespace GK3D.Components.SceneObjects
         private Matrix viewMAtrix;
         public Matrix ViewMatrix { get => viewMAtrix; set => viewMAtrix = value; }
 
-        public Camera()
+        public Camera(bool addControllers = true)
         {
-            AddComponent(new CameraControllerComponent(this));
-            AddComponent(new CameraRotationControllerComponent(this));
+            if (addControllers)
+            {
+                AddComponent(new CameraControllerComponent(this));
+                AddComponent(new CameraRotationControllerComponent(this));
+            }
         }
 
         private void UpdateViewMatrix()

@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GK3D.Components.Components
 {
-    public class TelebimTextureControllerComponent : IComponet
+    public class TelebimTextureControllerComponent : IUpdateableComponent
     {
-        private BilboardModel bilboard;
-        public TelebimTextureControllerComponent(BilboardModel model)
+        private EkranModel bilboard;
+        public TelebimTextureControllerComponent(EkranModel model)
         {
             bilboard = model;
         }

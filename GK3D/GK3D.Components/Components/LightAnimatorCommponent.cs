@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace GK3D.Components.Components
 {
-    public class LightAnimatorCommponent : IComponet
+    public class LightAnimatorCommponent : IUpdateableComponent
     {
         private SimpleEffect effect;
         private Light light;

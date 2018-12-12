@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GK3D.Components
 {
-    public interface IGameObject
+    public interface IGameObject : IUpdateableComponent
     {
         bool IsActive { get; set; }
         void AddComponent(IComponet componet);
@@ -11,6 +11,5 @@ namespace GK3D.Components
         TComponent[] GetComponets<TComponent>() where TComponent : IComponet;
         void RemoveComponent(IComponet componet);
         void RemoveComponents<TComponent>() where TComponent : IComponet;
-        void Update(GameTime gameTime);
     }
 }

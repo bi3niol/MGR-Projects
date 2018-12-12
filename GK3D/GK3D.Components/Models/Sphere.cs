@@ -14,7 +14,7 @@ namespace GK3D.Components.Models
         public float Radius { get; private set; }
         public Sphere(GraphicsDeviceManager graphics, SimpleEffect effect, Color c, float radius, int nbLat, int nbLong) : base(effect)
         {
-            Vertexes = new VertexPositionColorNormal[(nbLong + 1) * nbLat + 2];
+            Vertices = new VertexPositionColorNormal[(nbLong + 1) * nbLat + 2];
             Vector3[] vertices = new Vector3[(nbLong + 1) * nbLat + 2];
             float _pi = (float)Math.PI;
             float _2pi = _pi * 2f;
@@ -95,7 +95,7 @@ namespace GK3D.Components.Models
             }
             #endregion
 
-            Vertexes = vertexes.ToArray();
+            Vertices = vertexes.ToArray();
         }
     }
 }

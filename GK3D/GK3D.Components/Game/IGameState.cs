@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GK3D.Components.SceneObjects;
+using Microsoft.Xna.Framework;
 
 namespace GK3D.Components.Game
 {
@@ -7,5 +8,6 @@ namespace GK3D.Components.Game
         IStateManager ParentManager { get; set; }
         void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
+        void Draw(GameTime gameTime, Camera camera);
     }
 }

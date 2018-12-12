@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GK3D.Components.Components
 {
-    public class CameraControllerComponent : IComponet
+    public class CameraControllerComponent : IUpdateableComponent
     {
         public CameraControllerComponent(Camera camera)
         {

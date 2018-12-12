@@ -3,12 +3,14 @@ using GK3D.Components.Components;
 using GK3D.Components.Extensions;
 using GK3D.Components.Game;
 using GK3D.Components.Models;
+using GK3D.Components.ParticlesSystems;
 using GK3D.Components.SceneObjects;
 using GK3D.Components.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GK3D.App
@@ -30,7 +32,7 @@ namespace GK3D.App
         SpriteFont basicFont;
         RenderTarget2D renderTarget;
         SamplerState sampler;
-
+        Camera monitorCamera;
         public GKProject()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -65,6 +67,7 @@ namespace GK3D.App
             // GUI
             sampler = graphics.GraphicsDevice.SamplerStates[0].CopySampler();
             sampler.Name = "custom sampler";
+
             GuiMenu menu = new GuiMenu(spriteBatch, basicFont, this);
             menu.MultiSamplingChange.Checked = graphics.PreferMultiSampling;
             menu.MultiSampleAntiAliasingChange += (s, e) =>
@@ -100,11 +103,13 @@ namespace GK3D.App
             sampler.Filter = getFilter();
             menu.LinearMipFilterCheckBox.OnCheckChanged += (s, e) =>
             {
+                sampler.Dispose();
                 sampler = sampler.CopySampler();
                 sampler.Filter = getFilter();
             };
             menu.LinearMagFilterCheckBox.OnCheckChanged += (s, e) =>
             {
+                sampler.Dispose();
                 sampler = sampler.CopySampler();
                 sampler.Filter = getFilter();
             };
@@ -113,6 +118,9 @@ namespace GK3D.App
 
             menu.MinMapLevelOfDetailsBiasPicker.OnValueChange += (s, e) =>
             {
+                if (e >= 16)
+                    return;
+                sampler.Dispose();
                 sampler = sampler.CopySampler();
                 sampler.MipMapLevelOfDetailBias = e;
             };
@@ -195,7 +203,7 @@ namespace GK3D.App
             dir.Normalize();
             Light lightSat2 = new Light()
             {
-                Color = new Color(0, 0, 0, 255),
+                Color = new Color(0, 100, 190, 255),
                 Type = GK3D.Components.SceneObjects.LightType.Spot,
                 Position = satelite2.Position,
                 Direction = dir,
@@ -217,11 +225,16 @@ namespace GK3D.App
                 KSpecular = 0.5f
             };
 
+
             effect.AddLight(lightSat2);
             effect.AddLight(lightSat3);
             Camera camera = new Camera()
             {
                 Position = new Vector3(0, 0, 60),
+            };
+            monitorCamera = new Camera()
+            {
+                Position = new Vector3(6, 20, 16)
             };
             //skybox
             var cube = Content.Load<TextureCube>("SunInSpace/skybox");
@@ -232,19 +245,25 @@ namespace GK3D.App
             };
             lightSat2.AddComponent(new LightAnimatorCommponent(lightSat2, effect));
 
-            BilboardModel tb = new BilboardModel(effect);
+            EkranModel tb = new EkranModel(effect);
             tb.Position = cube1.Position + new Vector3(0, 0, cube1.a);
             tb.Scale = new Vector3(3);
             tb.AddComponent(new TelebimTextureControllerComponent(tb));
+
+            EnvMappingModel envmodel = Content.LoadEnvMappingModel("mars/Mars 2K", effect);
+            envmodel.Texture = cube;
+            envmodel.Position = new Vector3(30, 30, -10);
+            SteamParticlesSystem ps = new SteamParticlesSystem(50, effect, Content.Load<Texture2D>("inne/para2"), camera);
+            ps.Position = connector.Position;
             var mainState = new ProjectSceneState
             {
                 Effect = effect,
                 Camera = camera,
-                GameObjects = new System.Collections.Generic.List<IGameObject>
+                Components = new System.Collections.Generic.List<IComponet>
                 {
-                    tb,
                     light,
                     skybox,
+                    envmodel,
                     cube1,
                     mars,
                     cylinder1,
@@ -252,30 +271,50 @@ namespace GK3D.App
                     //planet, //planet
                     sph1,
                     connector,
+                    satelite3,
+                    satelite2,
                     sph2,
                     spaceship1,
                     spaceship2,
-                    satelite2,
-                    satelite3
+                    tb,
+                    ps,
                 },
                 Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500)
             };
+            AddPlanetoids(mainState.Components, effect);
             manager.StateManager.SetState(States.Main, mainState);
             renderTarget = new RenderTarget2D(
                 GraphicsDevice,
                 GraphicsDevice.PresentationParameters.BackBufferWidth,
                 GraphicsDevice.PresentationParameters.BackBufferHeight,
-                false,
+                true,
                 GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
+                DepthFormat.Depth24Stencil8);
+            tb.Texture = renderTarget;
 
-            tb.Texture = Content.Load<Texture2D>("inne/paski"); //inne/Straflos avek1
             graphics.DeviceReset += (s, e) =>
             {
                 mainState.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500);
             };
             manager.StateManager.SetCurrentState(States.Main);
             Components.Add(manager);
+        }
+
+        private void AddPlanetoids(List<IComponet> gameObjects, SimpleEffect effect)
+        {
+            Random r = new Random();
+            for (int i = 0; i < 200; i++)
+            {
+                Vector3 pos = new Vector3((float)(r.NextDouble() * 2 - 1), (float)(r.NextDouble() * 2 - 1), (float)(r.NextDouble() * 2 - 1));
+                pos.Normalize();
+                pos = pos * (r.Next() % 10 + 35);
+                Vector3 scale = new Vector3((float)(r.NextDouble() + 1));
+                gameObjects.Add(new BilboardModel(effect, Content.Load<Texture2D>($"inne/stones/stone{r.Next() % 4 + 1}"))
+                {
+                    Position = pos,
+                    Scale = scale
+                });
+            }
         }
 
         /// <summary>
@@ -308,24 +347,18 @@ namespace GK3D.App
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            //GraphicsDevice.Clear(Color.Black);
 
-            //spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, DepthStencilState.Default);
-            //var c = Color.White;
-            //c.A = 200;
-            //spriteBatch.Draw(renderTarget, GraphicsDevice.Viewport.Bounds, c);
-            //spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            manager.Draw(gameTime, monitorCamera);
+            GraphicsDevice.SetRenderTarget(null);
 
-            //graphics.GraphicsDevice.SetRenderTarget(renderTarget);
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, sampler, DepthStencilState.Default);
             spriteBatch.DrawString(basicFont, "MOVEMENT : W A S D Q E", new Vector2(30, 30), Color.Yellow);
             spriteBatch.DrawString(basicFont, "ROTATIONS : U H J K Y I", new Vector2(30, 50), Color.Yellow);
             spriteBatch.End();
 
-            //base.Draw(gameTime);
-            //graphics.GraphicsDevice.SetRenderTarget(null);
             base.Draw(gameTime);
-
         }
     }
 }

@@ -13,6 +13,13 @@ namespace GK3D.Components
             Model asset = manager.Load<Model>(assetName);
             if (asset == null) return null;
             return new XnaModel(effect, asset);
-        }
+        }//EnvMappingModel
+
+        public static EnvMappingModel LoadEnvMappingModel(this ContentManager manager, string assetName, SimpleEffect effect)
+        {
+            Model asset = manager.Load<Model>(assetName);
+            if (asset == null) return null;
+            return new EnvMappingModel(asset, effect);
+        }//EnvMappingModel
     }
 }

@@ -62,7 +62,7 @@ namespace GK3D.Components.Models
                 vertexes.Add(new VertexPositionColorNormal(pos[imn + n1], c, normals[imn + n1]));
                 vertexes.Add(new VertexPositionColorNormal(pos[imn + 1], c, normals[imn + 1]));
             }
-            Vertexes = vertexes.ToArray();
+            Vertices = vertexes.ToArray();
         }
     }
 }

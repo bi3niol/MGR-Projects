@@ -60,7 +60,13 @@
     <Content Include="Content\inne\BaseTexture2.jpg" />
     <Content Include="Content\inne\BaseTexture3.jpg" />
     <Content Include="Content\inne\mesh.png" />
+    <Content Include="Content\inne\para.png" />
+    <Content Include="Content\inne\para2.png" />
     <Content Include="Content\inne\paski.png" />
+    <Content Include="Content\inne\stones\stone1.png" />
+    <Content Include="Content\inne\stones\stone2.png" />
+    <Content Include="Content\inne\stones\stone3.png" />
+    <Content Include="Content\inne\stones\stone4.png" />
     <Content Include="Content\inne\Straflos avek1.png" />
     <Content Include="Content\mars\Textures\Bump_2K.png" />
     <Content Include="Content\mars\Textures\Clouds_2K.png" />

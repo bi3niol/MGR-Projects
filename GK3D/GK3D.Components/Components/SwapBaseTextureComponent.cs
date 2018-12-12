@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GK3D.Components.Components
 {
-    public class SwapBaseTextureComponent : IComponet
+    public class SwapBaseTextureComponent : IUpdateableComponent
     {
         private List<Texture> _textures = new List<Texture>();
         private int textureId = 0;

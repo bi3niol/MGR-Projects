@@ -29,6 +29,7 @@ namespace GK3D.Components.Shaders
             public const string MipMapLevelOfDetailBias = "MipMapLevelOfDetailBias";
             public const string LightsEnabled = "LightsEnabled"; 
             public const string TextureMatrix = "TextureMatrix"; 
+            public const string CameraUp = "CameraUp"; 
         }
 
         public GraphicsDeviceManager Graphics { get; set; }
@@ -100,6 +101,18 @@ namespace GK3D.Components.Shaders
             set
             {
                 Parameters[nameof(CameraPosition)].SetValue(value);
+            }
+        }
+
+        public Vector3 CameraUp
+        {
+            get
+            {
+                return Parameters[ParamNames.CameraUp].GetValueVector3();
+            }
+            set
+            {
+                Parameters[ParamNames.CameraUp].SetValue(value);
             }
         }
 

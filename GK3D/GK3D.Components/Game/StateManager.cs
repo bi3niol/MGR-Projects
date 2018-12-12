@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GK3D.Components.SceneObjects;
 using Microsoft.Xna.Framework;
 
 namespace GK3D.Components.Game
@@ -14,6 +15,11 @@ namespace GK3D.Components.Game
         public void Draw(GameTime gameTime)
         {
             CurrentState?.Draw(gameTime);
+        }
+
+        public void Draw(GameTime gameTime, Camera camera)
+        {
+            CurrentState?.Draw(gameTime, camera);
         }
 
         public bool SetCurrentState(Enum stateId)

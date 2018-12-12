@@ -1,4 +1,5 @@
-﻿using GK3D.GUI;
+﻿using GK3D.Components.SceneObjects;
+using GK3D.GUI;
 using Microsoft.Xna.Framework;
 
 
@@ -17,6 +18,10 @@ namespace GK3D.Components.Game
         {
             StateManager?.Draw(gameTime);
             base.Draw(gameTime);
+        }
+        public void Draw(GameTime gameTime, Camera camera)
+        {
+            StateManager?.Draw(gameTime, camera);
         }
         public override void Update(GameTime gameTime)
         {

@@ -2,7 +2,7 @@
 
 namespace GK3D.Components
 {
-    public interface IModel : IGameObject
+    public interface IModel : IGameObject, IRenderableComponent
     {
 
         //
@@ -15,17 +15,6 @@ namespace GK3D.Components
         Vector3 Scale { get; set; }
 
         Matrix World { get; }
-        //
-        // Summary:
-        //     Draws the model meshes.
-        //
-        // Parameters:
-        //
-        //   view:
-        //     The view transform.
-        //
-        //   projection:
-        //     The projection transform.
-        void Draw(Matrix view, Matrix projection);
+    
     }
 }
