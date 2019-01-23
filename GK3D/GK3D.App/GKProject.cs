@@ -250,8 +250,9 @@ namespace GK3D.App
             tb.Scale = new Vector3(3);
             tb.AddComponent(new TelebimTextureControllerComponent(tb));
 
-            EnvMappingModel envmodel = Content.LoadEnvMappingModel("mars/Mars 2K", effect);
+            EnvMappingModel envmodel = Content.LoadEnvMappingModel("Rocket_Ship_v1_L3.123c485c9e1d-6d02-47cf-b751-9606e55c8fa1/10475_Rocket_Ship_v1_L3", effect);
             envmodel.Texture = cube;
+            envmodel.Scale = new Vector3(0.02f);
             envmodel.Position = new Vector3(30, 30, -10);
             SteamParticlesSystem ps = new SteamParticlesSystem(50, effect, Content.Load<Texture2D>("inne/para2"), camera);
             ps.Position = connector.Position;
@@ -281,7 +282,7 @@ namespace GK3D.App
                 },
                 Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, graphics.GraphicsDevice.Viewport.AspectRatio, 1, 500)
             };
-            AddPlanetoids(mainState.Components, effect);
+            //AddPlanetoids(mainState.Components, effect);
             manager.StateManager.SetState(States.Main, mainState);
             renderTarget = new RenderTarget2D(
                 GraphicsDevice,
@@ -354,14 +355,14 @@ namespace GK3D.App
             GraphicsDevice.SetRenderTarget(null);
 
             base.Draw(gameTime);
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, sampler, DepthStencilState.Default);
-            spriteBatch.DrawString(basicFont, "Poruszanie : W A S D Q E", new Vector2(30, 30), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "Poruszanie Obroty : U H J K Y I", new Vector2(30, 50), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "Poruszanie tekstura telebimu : strzalki", new Vector2(30, 70), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "Skalowanie textury na telebimnie : + -", new Vector2(30, 90), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "Zmiana textury na bazie : N", new Vector2(30, 110), Color.Yellow);
-            spriteBatch.DrawString(basicFont, "Pokaz/Ukryj menu : spacja", new Vector2(30, 10), Color.Yellow);
-            spriteBatch.End();
+            //spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, sampler, DepthStencilState.Default);
+            //spriteBatch.DrawString(basicFont, "Poruszanie : W A S D Q E", new Vector2(30, 30), Color.Yellow);
+            //spriteBatch.DrawString(basicFont, "Poruszanie Obroty : U H J K Y I", new Vector2(30, 50), Color.Yellow);
+            //spriteBatch.DrawString(basicFont, "Poruszanie tekstura telebimu : strzalki", new Vector2(30, 70), Color.Yellow);
+            //spriteBatch.DrawString(basicFont, "Skalowanie textury na telebimnie : + -", new Vector2(30, 90), Color.Yellow);
+            //spriteBatch.DrawString(basicFont, "Zmiana textury na bazie : N", new Vector2(30, 110), Color.Yellow);
+            //spriteBatch.DrawString(basicFont, "Pokaz/Ukryj menu : spacja", new Vector2(30, 10), Color.Yellow);
+            //spriteBatch.End();
         }
     }
 }
